@@ -1,0 +1,107 @@
+group 'webmagic'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    }
+    dependencies {
+        //使用1.4.2.RELEASE版本的Spring框架
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.4.RELEASE")
+    }
+
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+
+
+//生成的jar包包名和版本
+jar {
+    baseName = 'webmagic-rest-service'
+    version =  '0.1.0'
+
+    from('src/main/java') {
+        include 'com/mydemo/dao/mapper/*Mapper.xml'
+    }
+
+}
+
+repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+}
+
+//设置jdk的版本
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//添加编译时的依赖
+dependencies {
+    //springboot
+    compile("org.springframework.boot:spring-boot-starter-web")
+    //shutdown
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    //freemarker
+    compile("org.springframework.boot:spring-boot-starter-freemarker")
+    //devtools
+    compile("org.springframework.boot:spring-boot-devtools")
+    //mybatis
+    compile("org.mybatis:mybatis:3.4.4")
+    compile("org.mybatis:mybatis-spring:1.3.1")
+    //mysql
+    compile("mysql:mysql-connector-java:6.0.6")
+    //druid 默认使用
+    compile("com.alibaba:druid:1.0.31")
+    //c3p0
+    compile("c3p0:c3p0:0.9.1.2")
+    compile("org.springframework:spring-jdbc")
+    //pagehelper
+    compile("com.github.pagehelper:pagehelper:5.0.2")
+    //mapper
+    compile("tk.mybatis:mapper:3.4.0")
+    //webmagic
+    compile("us.codecraft:webmagic-core:0.7.1")
+            {
+                exclude module: 'slf4j-log4j12'
+            }
+    compile("us.codecraft:webmagic-extension:0.7.1")
+            {
+                exclude module: 'slf4j-log4j12'
+            }
+    compile("org.apache.commons:commons-lang3:3.5")
+    compile("org.apache.commons:commons-io:1.3.2")
+    /*compile("com.fasterxml.jackson.core:jackson-core:2.9.0.pr3")
+    compile("com.fasterxml.jackson.core:jackson-databind:2.9.0.pr3")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.0.pr3")
+    compile("com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.0.pr3")*/
+
+    compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0")
+    compile("tk.mybatis:mapper-spring-boot-starter:1.1.1")
+    compile("com.github.pagehelper:pagehelper-spring-boot-starter:1.1.1")
+
+    //compile fileTree(dir, 'libs' ,include : '*.jar')
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/main/com/mydemo/dao/mapper']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+        resources {
+            srcDirs = ['src/test/resources']
+        }
+    }
+}
