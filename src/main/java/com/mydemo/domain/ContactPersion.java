@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by admin on 2017/6/13.
@@ -42,6 +43,10 @@ public class ContactPersion implements Serializable{
     private String zipCode;
     //用户
     private Long userId;
+    //创建时间
+    private Date createTime;
+    //最近一次修改时间
+    private Date updateTime;
 
     public Long getId() {
         return id;
@@ -145,5 +150,21 @@ public class ContactPersion implements Serializable{
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

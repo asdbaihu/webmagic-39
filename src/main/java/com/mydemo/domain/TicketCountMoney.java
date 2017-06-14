@@ -14,9 +14,9 @@ public class TicketCountMoney implements Serializable{
 
     private Long ticketId;
 
-    private Long total;
+    private Integer total;
 
-    private Long remain;
+    private Integer remain;
 
     private Double money;
 
@@ -30,19 +30,19 @@ public class TicketCountMoney implements Serializable{
         this.ticketId = ticketId;
     }
 
-    public Long getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(Long total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 
-    public Long getRemain() {
+    public Integer getRemain() {
         return remain;
     }
 
-    public void setRemain(Long remain) {
+    public void setRemain(Integer remain) {
         this.remain = remain;
     }
 

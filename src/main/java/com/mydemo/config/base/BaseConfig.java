@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 @EnableTransactionManagement
-public class BaseConfig {
+public class BaseConfig{
 
 
     @Bean(name = "tomcatEmbeddedServletContainerFactory")

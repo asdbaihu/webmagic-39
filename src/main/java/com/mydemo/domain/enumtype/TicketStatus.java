@@ -5,5 +5,19 @@ package com.mydemo.domain.enumtype;
  */
 public enum TicketStatus {
 
-    //未发车、已发车
+    START,STARTED;
+
+
+    public String getDescription(){
+        String description = null;
+        switch (this){
+            case START:
+                description = "未发车";
+                break;
+            case STARTED:
+                description = "已发车";
+                break;
+        }
+        return description;
+    }
 }

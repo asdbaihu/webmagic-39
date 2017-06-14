@@ -23,6 +23,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("/toList")
+    public String toList(){
+
+        return "/user/userlist";
+    }
 
     @RequestMapping("/list")
     @ResponseBody

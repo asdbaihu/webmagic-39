@@ -39,10 +39,10 @@ public class MybatisConfig {
 
         DruidDataSource datasource = new DruidDataSource();
 
-        datasource.setUrl("jdbc:mysql://localhost:3306/mytest?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=UTC");
+        datasource.setUrl("jdbc:mysql://localhost:3306/mytest?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=UTC&useSSL=false");
         datasource.setUsername("root");
         datasource.setPassword("root");
-        datasource.setDriverClassName("com.mysql.jdbc.Driver");
+        datasource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
         //configuration
         datasource.setInitialSize(5);
@@ -76,7 +76,7 @@ public class MybatisConfig {
         sqlSessionFactory.setDataSource(dataSource());
         sqlSessionFactory.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
         sqlSessionFactory.setFailFast(true);
-        sqlSessionFactory.setTypeAliasesPackage("tk.mybatis.springboot.model");
+        sqlSessionFactory.setTypeAliasesPackage("com.mydemo.domain");
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {

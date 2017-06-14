@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mydemo.dao.CityMapper">
+
+    <resultMap id="city_map" type="com.mydemo.domain.City">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="cnName" column="cn_name" jdbcType="VARCHAR" />
+        <result property="enName" column="en_name" jdbcType="VARCHAR" />
+        <result property="countryCodeTwo" column="country_code_two" jdbcType="VARCHAR" />
+        <result property="countryCodeThree" column="country_code_three" jdbcType="VARCHAR"/>
+        <result property="cityType" column="city_type" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getAllList" resultMap="city_map">
+        select id,cn_name,en_name,country_code_two,country_code_three,city_type from city where 1=1
+        <if test="bo!=null">
+            <if test="bo.cityType!=null">
+                and city_type = #{bo.cityType}
+            </if>
+        </if>
+    </select>
+</mapper>

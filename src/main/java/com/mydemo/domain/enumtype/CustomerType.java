@@ -5,6 +5,25 @@ package com.mydemo.domain.enumtype;
  */
 public enum CustomerType {
 
-    //成人 小孩 学生 残疾军人、伤残人民警察
-    ADULT,CHILD,STUDENT,DISABLEDSOLDIERS
+    ADULT,CHILD,STUDENT,DISABLEDSOLDIERS;
+
+
+    public String getDescription(){
+        String description = null;
+        switch (this){
+            case ADULT:
+                description = "成人";
+                break;
+            case CHILD:
+                description = "小孩";
+                break;
+            case STUDENT:
+                description = "学生";
+                break;
+            case DISABLEDSOLDIERS:
+                description = "残疾军人、伤残人民警察";
+                break;
+        }
+        return description;
+    }
 }
