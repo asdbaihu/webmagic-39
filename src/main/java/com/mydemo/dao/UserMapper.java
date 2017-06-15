@@ -17,4 +17,6 @@ public interface UserMapper extends MyMapper<User> {
     Long getCount(@Param("bo") UserBo bo);
 
     List<UserVo> getList(@Param("bo") UserBo bo, @Param("pager") Pager<UserVo> pager);
+
+    Long deleteByIds(@Param("ids") List<Long> ids);
 }

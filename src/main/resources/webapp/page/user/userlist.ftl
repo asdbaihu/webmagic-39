@@ -1,40 +1,168 @@
 <!DOCTYPE html>
+<#assign basePath=request.contextPath />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <script type="text/javascript">
-        $(function () {
-            $("#dataShow").bootstrapTable({
-                url: "TradHandler.ashx?request=getTradList",
-                sortName: "rkey",//排序列
-                striped: true,//條紋行
-                sidePagination: "server",//服务器分页
-                //showRefresh: true,//刷新功能
-                //search: true,//搜索功能
-                clickToSelect: true,//选择行即选择checkbox
-                singleSelect: true,//仅允许单选
-                //searchOnEnterKey: true,//ENTER键搜索
-                pagination: true,//启用分页
-                escape: true,//过滤危险字符
-                queryParams: getParams,//携带参数
-                pageCount: 10,//每页行数
-                pageIndex: 0,//其实页
-                method: "get",//请求格式
-                //toolbar: "#toolBar",
-                onPageChange: function (number, size) {
-                    currPageIndex = number;
-                    currLimit = size
-                },
-                onLoadSuccess: function ()
-                {
-                    $("#searchBtn").button('reset');
-                }
-            });
-    </script>
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>小希希小哈哈</title>
+    <link href="${basePath}/css/bootstrap.css" rel="stylesheet" />
+    <link href="${basePath}/css/font-awesome.css" rel="stylesheet" />
+    <link href="${basePath}/css/custom-styles.css" rel="stylesheet" />
+    <link href="${basePath}/css/bootstrap-table.css" rel="stylesheet" />
 </head>
 <body>
-
-
-
+    <div id="user_main_query">
+        <form id="user_main_form" style="padding-top: 15px">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group form-inline">
+                        <label>编号:</label>
+                        <input class="form-control" type="text" id="id" name="id" />
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group form-inline">
+                        <label>用户名</label>
+                        <input class="form-control" type="text" id="userName" name="userName" />
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group form-inline">
+                        <label>姓名</label>
+                        <input class="form-control" type="text" id="name" name="name" />
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group form-inline">
+                        <label>城市</label>
+                        <input class="form-control" type="text" id="city" name="city" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group text-center">
+                    <div class="btn btn-info" id="user_main_reset">重置</div>
+                    <div class="btn btn-success" id="user_main_search">查询</div>
+                    <div class="btn btn-primary" id="user_main_add">添加</div>
+                    <div class="btn btn-warning" id="user_main_update">修改</div>
+                    <div class="btn btn-danger" id="user_main_del">删除</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="user_main_div">
+        <table id="user_table"></table>
+    </div>
 </body>
+<script src="${basePath}/js/jquery-1.9.1.min.js"></script>
+<script src="${basePath}/js/bootstrap.min.js"></script>
+<script src="${basePath}/js/bootstrap-table.js"></script>
+<script src="${basePath}/js/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript">
+
+
+    $(function(){
+        $('#user_main_query #user_main_search').bind('click',function(){
+            var params ={};
+            $.each($("#user_main_query #user_main_form").serializeArray(),function(){
+                params[this.name]=this.value;
+            })
+            $('#user_main_div #user_table').bootstrapTable('refresh',{"url":"${basePath}/user/list"});
+        });
+
+        $('#user_main_query #user_main_reset').bind('click',function(){
+            $("#user_main_query #id").val("");
+            $("#user_main_query #userName").val("");
+            $("#user_main_query #name").val("");
+            $("#user_main_query #city").val("");
+        });
+
+        $('#user_main_div #user_table').bootstrapTable({
+            url: "${basePath}/user/list",
+            dataType:"json",
+            queryParams: function (params) {
+                $.each($("#user_main_query #user_main_form").serializeArray(),function(){
+                    params[this.name]=this.value;
+                })
+                return params;
+            },
+            showColumns: true,
+            pagination: true,
+            sidePagination: 'server',
+            pageNumber: 1,
+            pageList: [ 10, 50, 100, 500],
+            search: false,
+            showRefresh:false,
+            columns: [
+                {
+                    field: 'id',
+                    title: '规则ID',
+                    visible: true,
+                    sortable: true
+                },
+                {
+                    field: 'name',
+                    title: '名称',
+                    visible: true
+                },
+                {
+                    field: 'userName',
+                    title: '用户名',
+                    visible: true
+                },
+                {
+                    field: 'sex',
+                    title: '性别',
+                    visible: true
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间',
+                    visible: true,
+                    sortable: true,
+                    formatter: function(value, row, index){
+                        var date = new Date(value);
+                        var Y = date.getFullYear() + '-';
+                        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                        var D = date.getDate() + ' ';
+                        var h = date.getHours() + ':';
+                        var m = date.getMinutes() + ':';
+                        var s = date.getSeconds();
+                        return Y+M+D+h+m+s;
+                    }
+                },
+                {
+                    field: 'cityName',
+                    title: '城市',
+                    visible: true
+                },
+                {
+                    field: 'card',
+                    title: '证件',
+                    visible: true,
+                    formatter:function(value,row,index){
+                        return row.cardTypeName+":"+value;
+                    }
+                },
+                {
+                    field: 'email',
+                    title: '邮箱',
+                    visible: true
+                },
+                {
+                    field: 'tel',
+                    title: '电话',
+                    visible: true
+                },
+                {
+                    field: 'customerTypeName',
+                    title: '游客类型',
+                    visible: true
+                }
+            ]
+        })
+    })
+</script>
 </html>

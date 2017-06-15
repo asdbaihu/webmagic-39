@@ -16,7 +16,7 @@
     <div id="wrapper">
         <nav class="navbar navbar-default top-navbar" role="navigation">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.ftl">我的火车票</a>
+                <a class="navbar-brand" href="javascript:void(0)">我的火车票</a>
             </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
@@ -40,10 +40,10 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a class="active-menu" href="#"><i class="fa fa-dashboard"></i>系统管理</a>
+                        <a class="active-menu" href="javascript:void(0)"><i class="fa fa-dashboard"></i>系统管理</a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#" target="page-wrapper">用户管理</a>
+                                <a href="/webmagic/user/toList.html" target="page-wrapper">用户管理</a>
                             </li>
                             <li>
                                 <a href="#" target="page-wrapper">国家管理</a>
@@ -65,12 +65,21 @@
                 </ul>
             </div>
         </nav>
-        <div id="page-wrapper">
-            <iframe name="page-wrapper" marginwidth=10 marginheight=10 frameborder=no width="100%" scrolling="no" height=100% src="/user"></iframe>
+        <div id="page-wrapper" style="height:1000px;">
+            <iframe name="page-wrapper" id="iframe" marginwidth=10 marginheight=10 frameborder=no width="100%" scrolling="no"  src="/webmagic/user/toList.html"></iframe>
         </div>
     </div>
-    <script src="${basePath}/js/jquery-1.11.3.min.js"></script>
+    <script src="${basePath}/js/jquery-1.9.1.min.js"></script>
     <script src="${basePath}/js/bootstrap.min.js"></script>
     <script src="${basePath}/js/bootstrap-table.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#wrapper #iframe").load(function () {
+                var mainheight = $(this).contents().find("body").height();
+                $(this).height(mainheight);
+            });
+        });
+
+    </script>
 </body>
 </html>

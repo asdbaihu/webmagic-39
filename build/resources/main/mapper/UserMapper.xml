@@ -25,37 +25,33 @@
 
     <select id="getCount" resultType="Long">
         select count(id) from user u where 1=1
-        <if test="bo!=null">
-            <if test="bo.id!=null">
-                and u.id = #{bo.id}
-            </if>
-            <if test="bo.userName!=null">
-                and upper(u.user_name) like upper(concat('%',#{bo.userName},'%'))
-            </if>
-            <if test="bo.name!=null">
-                and upper(u.name) like upper(concat('%',#{bo.ame},'%'))
-            </if>
-            <if test="bo.city!=null">
-                and u.city = #{bo.city}
-            </if>
+        <if test="bo.id!=null">
+            and u.id = #{bo.id}
+        </if>
+        <if test="bo.userName!=null and bo.userName!=''">
+            and upper(u.user_name) like upper(concat('%',#{bo.userName},'%'))
+        </if>
+        <if test="bo.name!=null and bo.name!=''">
+            and upper(u.name) like upper(concat('%',#{bo.name},'%'))
+        </if>
+        <if test="bo.city!=null">
+            and u.city = #{bo.city}
         </if>
     </select>
 
     <select id="getList" resultMap="user_list_map">
         select * from user where 1=1
-        <if test="bo!=null">
-            <if test="bo.id!=null">
-                and u.id = #{bo.id}
-            </if>
-            <if test="bo.userName!=null">
-                and upper(u.user_name) like upper(concat('%',#{bo.userName},'%'))
-            </if>
-            <if test="bo.name!=null">
-                and upper(u.name) like upper(concat('%',#{bo.ame},'%'))
-            </if>
-            <if test="bo.city!=null">
-                and u.city = #{bo.city}
-            </if>
+        <if test="bo.id!=null">
+            and u.id = #{bo.id}
+        </if>
+        <if test="bo.userName!=null and bo.userName!=''">
+            and upper(u.user_name) like upper(concat('%',#{bo.userName},'%'))
+        </if>
+        <if test="bo.name!=null and bo.name!=''">
+            and upper(u.name) like upper(concat('%',#{bo.name},'%'))
+        </if>
+        <if test="bo.city!=null">
+            and u.city = #{bo.city}
         </if>
         <if test="pager.sort!=null">
             order by m.${pager.sort} ${pager.order}

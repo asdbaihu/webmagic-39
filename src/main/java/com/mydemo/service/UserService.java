@@ -3,12 +3,14 @@ package com.mydemo.service;
 import com.mydemo.common.Constant;
 import com.mydemo.common.Pager;
 import com.mydemo.dao.UserMapper;
+import com.mydemo.domain.City;
 import com.mydemo.domain.User;
 import com.mydemo.domain.bo.UserBo;
 import com.mydemo.domain.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +34,33 @@ public class UserService{
         List<UserVo> list = userMapper.getList(bo,page);
         for(UserVo userVo :list){
             userVo.setCardTypeName(userVo.getCardType().getDescription());
-            userVo.setCityName(Constant.CITY_MAP.get(userVo.getCity()).getCnName());
+            City city = Constant.CITY_MAP.get(userVo.getCity());
+            if (city!=null&&city.getId()>0) {
+                userVo.setCityName(city.getCnName());
+            }
             userVo.setCustomerTypeName(userVo.getCustomerType().getDescription());
         }
 
         pageInfo.setRows(list);
         return pageInfo;
+    }
+
+    @Transactional
+    public Boolean deleteByIds(List<Long> ids){
+        return userMapper.deleteByIds(ids)>0?true:false;
+    }
+
+    @Transactional
+    public Boolean save(User user){
+        return userMapper.insert(user)>0?true:false;
+    }
+
+    @Transactional
+    public Boolean update(User user){
+        return userMapper.updateByPrimaryKey(user)>0?true:false;
+    }
+
+    public User getById(Long id){
+        return userMapper.selectByPrimaryKey(id);
     }
 }

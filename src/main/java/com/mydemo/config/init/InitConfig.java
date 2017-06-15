@@ -6,6 +6,7 @@ import com.mydemo.dao.UserMapper;
 import com.mydemo.domain.City;
 import com.mydemo.domain.User;
 import com.mydemo.domain.enumtype.CityType;
+import com.mydemo.service.InitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,35 +26,12 @@ public class InitConfig implements CommandLineRunner{
     private final static Logger logger = LoggerFactory.getLogger(InitConfig.class);
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private CityMapper cityMapper;
+    private InitService initService;
 
     @Override
     public void run(String... args) throws Exception {
         logger.info("初始化内存constant开始");
-
-        List<User> userList = userMapper.selectAll();
-        Constant.USER_LIST = userList;
-        Map<Long,User> userMap = new HashMap<>();
-        for (User user : userList){
-            userMap.put(user.getId(),user);
-        }
-        Constant.USER_MAP = userMap;
-
-        List<City> cityList = cityMapper.selectAll();
-        Constant.CITY_LIST = cityList;
-        Map<Long,City> cityMap = new HashMap<>();
-        Map<String,City> countryMapTwo = new HashMap<>();
-        for(City city : cityList){
-            cityMap.put(city.getId(),city);
-            if(CityType.COUNTRY.equals(city.getCityType())){
-                countryMapTwo.put(city.getCountryCodeTwo(),city);
-            }
-        }
-        Constant.COUNTRY_MAP_TWO = countryMapTwo;
-        Constant.CITY_MAP = cityMap;
+        initService.init();
         logger.info("初始化内存constant结束");
     }
 }
