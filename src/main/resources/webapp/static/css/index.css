@@ -1,0 +1,91 @@
+.gray-bg{
+    background-color:white;
+}
+body{
+    background-color:white;
+}
+.wrapper-content{
+    padding:0px;
+}
+.row .row-br{
+    margin-bottom:10px;
+}
+.jmenumcon{
+    background-color:white;
+}
+.bottom-hr{
+    clear:both;
+    border-bottom:1px solid #ccc;
+    margin-bottom:5px;
+}
+.search-left{
+    float:left;
+    width:800px;
+}
+.search-right{
+    float:left;
+    width:200px;
+}
+.table-clear-margin{
+    margin:3px 0px 3px 3px;
+    padding:0px;
+    width:-moz-calc(100% - 6px);
+    width:-webkit-calc(100% - 7px);
+}
+.table-clear-margin td{
+    padding:3px;
+}
+.jmenu-contant{
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+    overflow-y:hidden;
+}
+.list-form-left{
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    text-align: center;
+    border: 1px solid #ccc;
+    background-color: #f3f3f4;
+    color: inherit;
+    font-weight: 400;
+    width: 80px;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: table-cell;
+    border-collapse: separate;
+    float:left;
+}
+.list-form-left>select{
+    margin-top:-3px;
+    margin-left:-8px;
+    width: 75px;
+    height: 24px;
+}
+.list-form-right{
+    width:-moz-calc(100% - 80px);
+    width:-webkit-calc(100% - 80px);
+    float:left;
+    padding: 5px 10px;
+    height: 30px;
+    margin-left:-2px;
+}
+.table_class{
+    width:100%;
+    font-weight: bold;
+}
+.table_left{
+    background-color: #f3f3f4;
+    text-align:right;
+    padding:2px;
+}
+.table_value{
+    padding-left:10px;
+    padding-top:2px;
+    padding-bottom:2px;
+    padding-right:2px;
+    align:left;
+}

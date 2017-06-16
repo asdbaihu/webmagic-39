@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class City implements Serializable{
 
     private static final long serialVersionUID = -2012397370872615507L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,11 +22,13 @@ public class City implements Serializable{
 
     private String enName;
 
-    private String countryCodeTwo;
+    private String countryCode;
 
-    private String countryCodeThree;
+    private String countryCodeMore;
 
     private CityType cityType;
+
+    private String remark;
 
     public Long getId() {
         return id;
@@ -51,20 +54,20 @@ public class City implements Serializable{
         this.enName = enName;
     }
 
-    public String getCountryCodeTwo() {
-        return countryCodeTwo;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCountryCodeTwo(String countryCodeTwo) {
-        this.countryCodeTwo = countryCodeTwo;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
-    public String getCountryCodeThree() {
-        return countryCodeThree;
+    public String getCountryCodeMore() {
+        return countryCodeMore;
     }
 
-    public void setCountryCodeThree(String countryCodeThree) {
-        this.countryCodeThree = countryCodeThree;
+    public void setCountryCodeMore(String countryCodeMore) {
+        this.countryCodeMore = countryCodeMore;
     }
 
     public CityType getCityType() {
@@ -73,5 +76,13 @@ public class City implements Serializable{
 
     public void setCityType(CityType cityType) {
         this.cityType = cityType;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

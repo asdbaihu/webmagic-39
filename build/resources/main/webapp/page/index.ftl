@@ -10,6 +10,9 @@
     <link href="${basePath}/css/font-awesome.css" rel="stylesheet" />
     <link href="${basePath}/css/custom-styles.css" rel="stylesheet" />
     <link href="${basePath}/css/bootstrap-table.css" rel="stylesheet" />
+    <link href="${basePath}/css/index.css" rel="stylesheet" />
+    <link href="${basePath}/js/layer/skin/default/layer.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -65,13 +68,14 @@
                 </ul>
             </div>
         </nav>
-        <div id="page-wrapper" style="height:1000px;">
+        <div id="page-wrapper">
             <iframe name="page-wrapper" id="iframe" marginwidth=10 marginheight=10 frameborder=no width="100%" scrolling="no"  src="/webmagic/user/toList.html"></iframe>
         </div>
     </div>
     <script src="${basePath}/js/jquery-1.9.1.min.js"></script>
     <script src="${basePath}/js/bootstrap.min.js"></script>
     <script src="${basePath}/js/bootstrap-table.js"></script>
+    <script src="${basePath}/js/layer/layer.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#wrapper #iframe").load(function () {

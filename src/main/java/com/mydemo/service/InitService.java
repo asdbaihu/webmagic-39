@@ -42,7 +42,7 @@ public class InitService {
         for(City city : cityList){
             cityMap.put(city.getId(),city);
             if(CityType.COUNTRY.equals(city.getCityType())){
-                countryMapTwo.put(city.getCountryCodeTwo(),city);
+                countryMapTwo.put(city.getCountryCode(),city);
             }
         }
         Constant.COUNTRY_MAP_TWO = countryMapTwo;

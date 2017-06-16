@@ -7,17 +7,19 @@
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="cnName" column="cn_name" jdbcType="VARCHAR" />
         <result property="enName" column="en_name" jdbcType="VARCHAR" />
-        <result property="countryCodeTwo" column="country_code_two" jdbcType="VARCHAR" />
-        <result property="countryCodeThree" column="country_code_three" jdbcType="VARCHAR"/>
+        <result property="countryCode" column="country_code" jdbcType="VARCHAR" />
+        <result property="countryCodeMore" column="country_code_more" jdbcType="VARCHAR"/>
         <result property="cityType" column="city_type" jdbcType="VARCHAR" />
+        <result property="remark" column="remark" jdbcType="VARCHAR" />
     </resultMap>
 
-    <select id="getAllList" resultMap="city_map">
-        select id,cn_name,en_name,country_code_two,country_code_three,city_type from city where 1=1
-        <if test="bo!=null">
-            <if test="bo.cityType!=null">
-                and city_type = #{bo.cityType}
-            </if>
+    <select id="getSelect2List" resultMap="city_map">
+        select id,cn_name,en_name,country_code,country_code_more,city_type,remark from city where 1=1
+        <if test="bo.search!=null and bo.search!=''">
+            and upper(concat(ifnull(cn_name,''),ifnull(en_name,''),ifnull(country_code,''),ifnull(country_code_more,''),ifnull(remark,''))) like upper(concat('%',#{bo.search},'%'))
+        </if>
+        <if test="bo.cityType!=null">
+            and city_type = #{bo.cityType}
         </if>
     </select>
 </mapper>

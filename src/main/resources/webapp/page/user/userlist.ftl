@@ -9,38 +9,37 @@
     <link href="${basePath}/css/font-awesome.css" rel="stylesheet" />
     <link href="${basePath}/css/custom-styles.css" rel="stylesheet" />
     <link href="${basePath}/css/bootstrap-table.css" rel="stylesheet" />
+    <link href="${basePath}/css/select2.min.css" rel="stylesheet" />
+    <link href="${basePath}/css/index.css" rel="stylesheet" />
+    <link href="${basePath}/js/layer/skin/default/layer.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="user_main_query">
+    <div id="user_main_query" class="animated fadeInRight jmenu-contant">
         <form id="user_main_form" style="padding-top: 15px">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="form-group form-inline">
-                        <label>编号:</label>
-                        <input class="form-control" type="text" id="id" name="id" />
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="form-group form-inline">
-                        <label>用户名</label>
-                        <input class="form-control" type="text" id="userName" name="userName" />
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="form-group form-inline">
-                        <label>姓名</label>
-                        <input class="form-control" type="text" id="name" name="name" />
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="form-group form-inline">
-                        <label>城市</label>
-                        <input class="form-control" type="text" id="city" name="city" />
-                    </div>
-                </div>
-            </div>
+            <table class="table table-bordered table-clear-margin">
+                <tr style="background-color:#f3f3f4;">
+                    <td class="col-xs-3">
+                        <span class="list-form-left">编号:</span>
+                        <input class="form-control list-form-right" type="text" id="id" name="id" />
+                    </td>
+                    <td class="col-xs-3">
+                        <span class="list-form-left">用户名</span>
+                        <input class="form-control list-form-right" type="text" id="userName" name="userName" />
+                    </td>
+                    <td class="col-xs-3">
+                        <span class="list-form-left">姓名</span>
+                        <input class="form-control list-form-right" type="text" id="name" name="name" />
+                    </td>
+                    <td class="col-xs-3 form-inline">
+                        <span class="list-form-left">城市</span>
+                        <select style="width:290px" class="select2 select2-container select2-container--default select2-container--focus" id="city" name="city">
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
         </form>
-        <div class="row">
+        <div class="row" style="padding: 15px 15px">
             <div class="col-lg-12">
                 <div class="form-group text-center">
                     <div class="btn btn-info" id="user_main_reset">重置</div>
@@ -60,23 +59,89 @@
 <script src="${basePath}/js/bootstrap.min.js"></script>
 <script src="${basePath}/js/bootstrap-table.js"></script>
 <script src="${basePath}/js/bootstrap-table-zh-CN.js"></script>
+<script src="${basePath}/js/select2.min.js"></script>
+<script src="${basePath}/js/layer/layer.js"></script>
+<script src="${basePath}/js/base.js"></script>
 <script type="text/javascript">
 
+    function user_main_search(){
+        var params ={};
+        $.each($("#user_main_query #user_main_form").serializeArray(),function(){
+            params[this.name]=this.value;
+        })
+        $('#user_main_div #user_table').bootstrapTable('refresh',{"url":"${basePath}/user/list"});
+    }
 
     $(function(){
-        $('#user_main_query #user_main_search').bind('click',function(){
-            var params ={};
-            $.each($("#user_main_query #user_main_form").serializeArray(),function(){
-                params[this.name]=this.value;
-            })
-            $('#user_main_div #user_table').bootstrapTable('refresh',{"url":"${basePath}/user/list"});
-        });
+        $('#user_main_query #user_main_search').bind('click',user_main_search());
 
         $('#user_main_query #user_main_reset').bind('click',function(){
             $("#user_main_query #id").val("");
             $("#user_main_query #userName").val("");
             $("#user_main_query #name").val("");
             $("#user_main_query #city").val("");
+        });
+
+        $("#user_main_query #user_main_add").bind('click',function(){
+            openWindows("添加用户","${basePath}/user/toAdd",null,
+                    function(index,layero){
+                        addUserInfoSubmit(index)
+                    });
+        });
+
+        $("#user_main_query #user_main_del").bind('click',function(){
+            var selects = $('#user_main_div #user_table').bootstrapTable('getSelections');
+            var ids = "";
+            if(selects.length>0){
+                for(var i=0;i<selects.length;i++){
+                    ids.push(selects[i].id);
+                }
+                layer.confirm('确定要删除用户信息吗?',{icon: 1, title:'提示'}, function(){
+                    $.ajax({
+                        type: "POST",
+                        url:"${basePath}/user/delete",
+                        data:{ids:ids.toString()}
+                        async: true,
+                        traditional: true,
+                        error: function() {
+                            layer.msg('系统错误请联系管理员!', {icon: 1});
+                        },
+                        success: function(data) {
+                            if(data.status=='success'){
+                                user_main_search();
+                            }else if(data.status=='error'){
+                                layer.msg(data.message, {icon: 1});
+                            }else{
+                                layer.msg('系统错误请联系管理员!', {icon: 1});
+                            }
+                        }
+                    });
+                });
+            }else{
+                layer.msg('系统错误请联系管理员!', {icon: 1});
+            }
+
+        });
+
+        $("#user_main_query #city").select2({
+            ajax: {
+                url: "${basePath}/city/citySelect2",
+                dataType: 'json',
+                delay: 250,
+                cache: false,
+                data: function (term) {
+                    //alert(JSON.stringify(term))
+                    return { search: term.term };
+                },
+                processResults: function (data) {
+                    //alert(JSON.stringify(data))
+                    return { results: data };
+                }
+            },
+            escapeMarkup: function (markup) { return markup; },
+            placeholder: "请输入",
+            placeholderOption: 'first',
+            allowClear: true
         });
 
         $('#user_main_div #user_table').bootstrapTable({
@@ -96,6 +161,11 @@
             search: false,
             showRefresh:false,
             columns: [
+                {
+                    field: 'state',
+                    checkbox: true,
+                    width:30
+                },
                 {
                     field: 'id',
                     title: '规则ID',

@@ -35,14 +35,15 @@ public class CityService{
 
     @Transactional
     public void save(City city) {
-        if (city.getId() != null) {
-            cityMapper.updateByPrimaryKey(city);
-        } else {
-            cityMapper.insert(city);
-        }
+        cityMapper.insert(city);
     }
 
-    public List<City> getAllList(CityBo bo){
-        return cityMapper.getAllList(bo);
+    @Transactional
+    public void update(City city){
+        cityMapper.updateByPrimaryKey(city);
+    }
+
+    public List<City> getSelect2List(CityBo bo){
+        return cityMapper.getSelect2List(bo);
     }
 }

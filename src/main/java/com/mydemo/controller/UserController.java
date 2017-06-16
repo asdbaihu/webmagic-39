@@ -1,11 +1,14 @@
 package com.mydemo.controller;
 
+import com.mydemo.common.Constant;
 import com.mydemo.common.Pager;
 import com.mydemo.domain.City;
 import com.mydemo.domain.User;
 import com.mydemo.domain.bo.CityBo;
 import com.mydemo.domain.bo.UserBo;
+import com.mydemo.domain.enumtype.CardType;
 import com.mydemo.domain.enumtype.CityType;
+import com.mydemo.domain.enumtype.CustomerType;
 import com.mydemo.domain.vo.UserVo;
 import com.mydemo.service.CityService;
 import com.mydemo.service.UserService;
@@ -46,8 +49,9 @@ public class UserController {
     }
 
     @RequestMapping("/toAdd")
-    public String toAdd() {
-
+    public String toAdd(ModelMap modelMap) {
+        modelMap.put("cardTypes", CardType.values());
+        modelMap.put("customerTypes", CustomerType.values());
         return "/user/toAdd";
     }
 
@@ -63,7 +67,13 @@ public class UserController {
 
     @RequestMapping("/toEdit")
     public String toEdit(ModelMap modelMap,Long id) {
-        User user = userService.getById(id);
+        UserVo user = (UserVo) userService.getById(id);
+        City city = Constant.CITY_MAP.get(user.getCity());
+        if(city!=null){
+            user.setCityName(city.getCnName());
+        }
+        modelMap.put("cardTypes", CardType.values());
+        modelMap.put("customerTypes", CustomerType.values());
         modelMap.put("user",user);
         return "user/toEdit";
     }

@@ -5,7 +5,9 @@ import com.mydemo.domain.enumtype.CityType;
 /**
  * Created by admin on 2017/6/14.
  */
-public class CityBo {
+public class CityBo{
+
+    private String search;
 
     private CityType cityType;
 
@@ -15,5 +17,13 @@ public class CityBo {
 
     public void setCityType(CityType cityType) {
         this.cityType = cityType;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }

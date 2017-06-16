@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface CityMapper extends MyMapper<City> {
 
-    List<City> getAllList(@Param("bo") CityBo bo);
+    List<City> getSelect2List(@Param("bo") CityBo bo);
 }
