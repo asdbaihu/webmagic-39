@@ -22,4 +22,59 @@
             and city_type = #{bo.cityType}
         </if>
     </select>
+
+    <select id="getCount" resultMap="Long">
+        select count(id) from city where 1 = 1
+        <if test="bo.cnName!=null and bo.cnName!=''">
+            and upper(cn_name) = upper(concat('%',#{bo.cnName},'%'))
+        </if>
+        <if test="bo.enName!=null and bo.enName!=''">
+            and upper(en_name) = upper(concat('%',#{bo.enName},'%'))
+        </if>
+        <if test="bo.cityType!=null">
+            and city_type = #{bo.cityType}
+        </if>
+        <if test="bo.countryCode!=null and bo.countryCode!=''">
+            and upper(country_code) = upper(concat('%',#{bo.countryCode},'%'))
+        </if>
+        <if test="bo.countryCodeMore!=null and bo.countryCodeMore!=''">
+            and upper(country_code_more) = upper(concat('%',#{bo.countryCodeMore},'%'))
+        </if>
+        <if test="bo.remark!=null and bo.remark!=''">
+            and upper(remark) = upper(concat('%',#{bo.remark},'%'))
+        </if>
+    </select>
+
+
+    <select id="getList" resultMap="city_map">
+        select id,cn_name,en_name,country_code,country_code_more,city_type,remark from city where 1 = 1
+        <if test="bo.cnName!=null and bo.cnName!=''">
+            and upper(cn_name) = upper(concat('%',#{bo.cnName},'%'))
+        </if>
+        <if test="bo.enName!=null and bo.enName!=''">
+            and upper(en_name) = upper(concat('%',#{bo.enName},'%'))
+        </if>
+        <if test="bo.cityType!=null">
+            and city_type = #{bo.cityType}
+        </if>
+        <if test="bo.countryCode!=null and bo.countryCode!=''">
+            and upper(country_code) = upper(concat('%',#{bo.countryCode},'%'))
+        </if>
+        <if test="bo.countryCodeMore!=null and bo.countryCodeMore!=''">
+            and upper(country_code_more) = upper(concat('%',#{bo.countryCodeMore},'%'))
+        </if>
+        <if test="bo.remark!=null and bo.remark!=''">
+            and upper(remark) = upper(concat('%',#{bo.remark},'%'))
+        </if>
+        <if test="pager.sort!=null">
+            order by m.${pager.sort} ${pager.order}
+        </if>
+    </select>
+
+    <delete id="deleteByIds">
+        delete from city where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
