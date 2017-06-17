@@ -14,5 +14,15 @@
         <result property="remark" column="remark" jdbcType="VARCHAR" />
     </resultMap>
 
+    <select id="getCount" resultMap="Long">
+        select count(id) from ticket where 1 = 1
+    </select>
 
+
+    <select id="getList" resultMap="ticket_map">
+        select * from ticket where 1 = 1
+        <if test="pager.sort!=null">
+            order by m.${pager.sort} ${pager.order}
+        </if>
+    </select>
 </mapper>

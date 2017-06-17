@@ -61,17 +61,19 @@
 <script src="${basePath}/js/bootstrap-table-zh-CN.js"></script>
 <script src="${basePath}/js/select2.min.js"></script>
 <script src="${basePath}/js/layer/layer.js"></script>
+<script src="${basePath}/js/base.js"></script>
 <script type="text/javascript">
 
+    function user_main_search(){
+        var params ={};
+        $.each($("#user_main_query #user_main_form").serializeArray(),function(){
+            params[this.name]=this.value;
+        })
+        $('#user_main_div #user_table').bootstrapTable('refresh',{"url":"${basePath}/user/list"});
+    }
 
     $(function(){
-        $('#user_main_query #user_main_search').bind('click',function(){
-            var params ={};
-            $.each($("#user_main_query #user_main_form").serializeArray(),function(){
-                params[this.name]=this.value;
-            })
-            $('#user_main_div #user_table').bootstrapTable('refresh',{"url":"${basePath}/user/list"});
-        });
+        $('#user_main_query #user_main_search').bind('click',user_main_search());
 
         $('#user_main_query #user_main_reset').bind('click',function(){
             $("#user_main_query #id").val("");
@@ -81,17 +83,42 @@
         });
 
         $("#user_main_query #user_main_add").bind('click',function(){
-
+            openWindows("添加用户","${basePath}/user/toAdd",null,
+                    function(index,layero){
+                        addUserInfoSubmit(index)
+                    });
         });
 
         $("#user_main_query #user_main_del").bind('click',function(){
             var selects = $('#user_main_div #user_table').bootstrapTable('getSelections');
+            var ids = "";
             if(selects.length>0){
-                layer.confirm('纳尼？',{icon: 1, title:'提示'}, function(index){
-
+                for(var i=0;i<selects.length;i++){
+                    ids.push(selects[i].id);
+                }
+                layer.confirm('确定要删除用户信息吗?',{icon: 1, title:'提示'}, function(){
+                    $.ajax({
+                        type: "POST",
+                        url:"${basePath}/user/delete",
+                        data:{ids:ids.toString()}
+                        async: true,
+                        traditional: true,
+                        error: function() {
+                            layer.msg('系统错误请联系管理员!', {icon: 1});
+                        },
+                        success: function(data) {
+                            if(data.status=='success'){
+                                user_main_search();
+                            }else if(data.status=='error'){
+                                layer.msg(data.message, {icon: 1});
+                            }else{
+                                layer.msg('系统错误请联系管理员!', {icon: 1});
+                            }
+                        }
+                    });
                 });
             }else{
-                layer.msg('不开心。。', {icon: 5});
+                layer.msg('系统错误请联系管理员!', {icon: 1});
             }
 
         });
@@ -101,6 +128,7 @@
                 url: "${basePath}/city/citySelect2",
                 dataType: 'json',
                 delay: 250,
+                cache: false,
                 data: function (term) {
                     //alert(JSON.stringify(term))
                     return { search: term.term };

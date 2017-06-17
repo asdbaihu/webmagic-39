@@ -1,23 +1,17 @@
 package com.mydemo.controller;
 
-import com.mydemo.common.Constant;
 import com.mydemo.common.Pager;
-import com.mydemo.domain.City;
-import com.mydemo.domain.User;
-import com.mydemo.domain.bo.UserBo;
-import com.mydemo.domain.enumtype.CardType;
-import com.mydemo.domain.enumtype.CustomerType;
-import com.mydemo.domain.vo.UserVo;
+import com.mydemo.domain.Ticket;
+import com.mydemo.domain.bo.TicketBo;
+import com.mydemo.domain.vo.TicketVo;
 import com.mydemo.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +33,7 @@ public class TicketController extends BaseController{
 
     @RequestMapping("/list")
     @ResponseBody
-    public Object list(UserBo bo, Pager<UserVo> page) {
+    public Object list(TicketBo bo, Pager<TicketVo> page) {
         page = ticketService.getPage(bo, page);
         return page;
     }
@@ -47,20 +41,20 @@ public class TicketController extends BaseController{
 
     @RequestMapping("/save")
     @ResponseBody
-    public Object save(User user) {
+    public Object save(Ticket ticket) {
         Map<String,String> map = new HashMap<>();
         //验证这些东西延后处理
-        boolean flag = ticketService.save(user);
+        boolean flag = ticketService.save(ticket);
         putStatus(flag,map);
         return map;
     }
 
 
     @RequestMapping("/update")
-    public Object update(User user) {
+    public Object update(Ticket ticket) {
         Map<String,String> map = new HashMap<>();
         //验证这些东西延后处理
-        boolean flag = ticketService.update(user);
+        boolean flag = ticketService.update(ticket);
         putStatus(flag,map);
         return map;
     }

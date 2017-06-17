@@ -76,6 +76,7 @@
     <script src="${basePath}/js/bootstrap.min.js"></script>
     <script src="${basePath}/js/bootstrap-table.js"></script>
     <script src="${basePath}/js/layer/layer.js"></script>
+    <script src="${basePath}/js/base.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#wrapper #iframe").load(function () {

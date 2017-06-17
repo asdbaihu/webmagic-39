@@ -2,29 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1aff618f-05bc-47a0-b181-7e030edf6f40" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/controller/BaseController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/controller/ContactPersionController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/controller/TicketController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/domain/bo/ContactPersionBo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/domain/bo/TicketBo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/domain/vo/CityVo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/domain/vo/ContactPersionVo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/domain/vo/TicketVo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/service/ContactPersionService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/service/TicketService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/sql/mytest.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mydemo/controller/CityController.java" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/controller/CityController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mydemo/controller/UserController.java" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/controller/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mydemo/dao/CityMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/dao/CityMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mydemo/dao/ContactPersionMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/dao/ContactPersionMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mydemo/dao/TicketMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/dao/TicketMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mydemo/domain/bo/CityBo.java" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/domain/bo/CityBo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mydemo/service/CityService.java" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/service/CityService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/CityMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/CityMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/ContactPersionMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ContactPersionMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/TicketMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/TicketMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mydemo/controller/TicketController.java" afterPath="$PROJECT_DIR$/src/main/java/com/mydemo/controller/TicketController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -129,11 +107,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContactPersionController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ContactPersionController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mydemo/controller/ContactPersionController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="511">
-              <caret line="51" column="36" lean-forward="false" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="36" />
+            <state relative-caret-position="1423">
+              <caret line="84" column="32" lean-forward="false" selection-start-line="84" selection-start-column="32" selection-end-line="84" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -141,12 +119,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserMapper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mydemo/dao/UserMapper.java">
+      <file leaf-file-name="TicketController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mydemo/controller/TicketController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="18" column="86" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="18" selection-end-column="86" />
-              <folding />
+            <state relative-caret-position="663">
+              <caret line="56" column="52" lean-forward="true" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -716,11 +696,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mydemo/service/ContactPersionService.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/ContactPersionMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/mydemo/controller/ContactPersionController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mydemo/controller/TicketController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mydemo/domain/vo/TicketVo.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mydemo/dao/TicketMapper.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/TicketMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/mydemo/service/TicketService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mydemo/controller/TicketController.java" />
       </list>
     </option>
   </component>
@@ -1936,7 +1916,7 @@
       <workItem from="1497488269820" duration="29666000" />
       <workItem from="1497575096033" duration="7425000" />
       <workItem from="1497583426393" duration="20297000" />
-      <workItem from="1497661725344" duration="10887000" />
+      <workItem from="1497661725344" duration="11297000" />
     </task>
     <servers />
   </component>
@@ -1970,7 +1950,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="112078000" />
+    <option name="totallyTimeSpent" value="112488000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -2357,16 +2337,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mydemo/controller/TicketController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1024">
-          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mydemo/domain/vo/TicketVo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -2470,8 +2440,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mydemo/controller/ContactPersionController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="51" column="36" lean-forward="false" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="36" />
+        <state relative-caret-position="1423">
+          <caret line="84" column="32" lean-forward="false" selection-start-line="84" selection-start-column="32" selection-end-line="84" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mydemo/controller/TicketController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="56" column="52" lean-forward="true" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

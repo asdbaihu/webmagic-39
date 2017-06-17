@@ -22,5 +22,45 @@
         <result property="userId" column="user_id" jdbcType="BIGINT" />
     </resultMap>
 
+    <select id="getCount" resultType="Long">
+        select count(id) from contact_persion u where 1=1
+        <if test="bo.id!=null">
+            and u.id = #{bo.id}
+        </if>
+        <if test="bo.name!=null and bo.name!=''">
+            and upper(u.name) like upper(concat('%',#{bo.name},'%'))
+        </if>
+        <if test="bo.customerType!=null">
+            and u.customer_type = #{bo.customerType}
+        </if>
+        <if test="bo.userId!=null">
+            and u.user_id = #{bo.userId}
+        </if>
+    </select>
 
+    <select id="getList" resultMap="contact_persion_map">
+        select * from contact_persion where 1=1
+        <if test="bo.id!=null">
+            and u.id = #{bo.id}
+        </if>
+        <if test="bo.name!=null and bo.name!=''">
+            and upper(u.name) like upper(concat('%',#{bo.name},'%'))
+        </if>
+        <if test="bo.customerType!=null">
+            and u.customer_type = #{bo.customerType}
+        </if>
+        <if test="bo.userId!=null">
+            and u.user_id = #{bo.userId}
+        </if>
+        <if test="pager.sort!=null">
+            order by m.${pager.sort} ${pager.order}
+        </if>
+    </select>
+
+    <delete id="deleteByIds">
+        delete from contact_persion where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
