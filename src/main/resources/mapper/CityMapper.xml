@@ -23,7 +23,7 @@
         </if>
     </select>
 
-    <select id="getCount" resultMap="Long">
+    <select id="getCount" resultType="Long">
         select count(id) from city where 1 = 1
         <if test="bo.cnName!=null and bo.cnName!=''">
             and upper(cn_name) = upper(concat('%',#{bo.cnName},'%'))

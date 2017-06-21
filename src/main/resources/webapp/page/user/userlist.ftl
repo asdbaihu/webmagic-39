@@ -32,7 +32,7 @@
                     </td>
                     <td class="col-xs-3 form-inline">
                         <span class="list-form-left">城市</span>
-                        <select style="width:290px" class="select2 select2-container select2-container--default select2-container--focus" id="city" name="city">
+                        <select style="width:290px" class="form-control select2 select2-container select2-container--default select2-container--focus" id="city" name="city">
                             <option value=""></option>
                         </select>
                     </td>
@@ -65,6 +65,7 @@
 <script type="text/javascript">
 
     function user_main_search(){
+        alert("aa");
         var params ={};
         $.each($("#user_main_query #user_main_form").serializeArray(),function(){
             params[this.name]=this.value;
@@ -73,7 +74,7 @@
     }
 
     $(function(){
-        $('#user_main_query #user_main_search').bind('click',user_main_search());
+        $('#user_main_query #user_main_search').bind('click',function(){user_main_search()});
 
         $('#user_main_query #user_main_reset').bind('click',function(){
             $("#user_main_query #id").val("");
@@ -83,7 +84,7 @@
         });
 
         $("#user_main_query #user_main_add").bind('click',function(){
-            openWindows("添加用户","${basePath}/user/toAdd",null,
+            openWindows("添加用户","${basePath}/user/toAdd.html",null,
                     function(index,layero){
                         addUserInfoSubmit(index)
                     });
@@ -99,8 +100,8 @@
                 layer.confirm('确定要删除用户信息吗?',{icon: 1, title:'提示'}, function(){
                     $.ajax({
                         type: "POST",
-                        url:"${basePath}/user/delete",
-                        data:{ids:ids.toString()}
+                        url:"${basePath}/user/delete.html",
+                        data:{ids:ids.toString()},
                         async: true,
                         traditional: true,
                         error: function() {
@@ -127,6 +128,8 @@
             ajax: {
                 url: "${basePath}/city/citySelect2",
                 dataType: 'json',
+                type: 'POST',
+                contentType:'application/x-www-form-urlencoded',
                 delay: 250,
                 cache: false,
                 data: function (term) {
@@ -138,6 +141,9 @@
                     return { results: data };
                 }
             },
+            formatNoMatches: function() {
+                return "没有选项";
+            },
             escapeMarkup: function (markup) { return markup; },
             placeholder: "请输入",
             placeholderOption: 'first',
@@ -145,8 +151,10 @@
         });
 
         $('#user_main_div #user_table').bootstrapTable({
-            url: "${basePath}/user/list",
-            dataType:"json",
+            url: '${basePath}/user/list',
+            dataType:'json',
+            contentType:'application/x-www-form-urlencoded',
+            method:'post',
             queryParams: function (params) {
                 $.each($("#user_main_query #user_main_form").serializeArray(),function(){
                     params[this.name]=this.value;

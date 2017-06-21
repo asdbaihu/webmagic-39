@@ -43,6 +43,7 @@ function openWindows(title,url,data,yesFunction,disableBtn){
                         yesFunction(index,layero);
                     },
                     btn2: function(index){
+                        closeMsg(loadIndex);
                         layer.close(index);
                     },
                     success: function(layero, index){
@@ -50,6 +51,9 @@ function openWindows(title,url,data,yesFunction,disableBtn){
                         $(".layui-layer-btn1").attr("class", "layui-layer-btn1 fa fa-angle-left");
                         var con=$(layero).find(".layui-layer-content");
                         con.css("height",con.height()+"px");
+                    },
+                    cancel:function(index, layero){
+                        closeMsg(loadIndex);
                     }
                 });
             }

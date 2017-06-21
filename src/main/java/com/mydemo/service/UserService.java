@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,7 @@ public class UserService{
     private UserMapper userMapper;
 
 
-    public Pager<UserVo> getPage(UserBo bo, Pager<UserVo> page) {
+    public Pager<UserVo> getPage(@RequestParam()UserBo bo, @RequestParam()Pager<UserVo> page) {
         Pager<UserVo> pageInfo = new Pager<>();
         BeanUtils.copyProperties(page,pageInfo);
         Long total = userMapper.getCount(bo);

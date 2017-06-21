@@ -2,7 +2,7 @@
     $(function(){
         $("#userAddForm #city").select2({
             ajax: {
-                url: "${basePath}/city/citySelect2",
+                url: "${basePath}/webmagic/city/citySelect2",
                 dataType: 'json',
                 delay: 250,
                 cache: false,
@@ -15,7 +15,11 @@
                     return { results: data };
                 }
             },
+            formatNoMatches: function() {
+                return "没有选项";
+            },
             escapeMarkup: function (markup) { return markup; },
+            minimumResultsForSearch:0,
             placeholder: "请输入",
             placeholderOption: 'first',
             allowClear: true
@@ -28,24 +32,23 @@
             type:"post",
             dataType:"json",
             data:$("#userAddForm").serializeArray(),
-            url:"/user/save",
+            url:"/webmagic/user/save",
             success:function(data){
                 closeMsg(o);
-                if(data.status=="00"){
+                if(data.status=='success'){
                     closeMsg(parentIndex);
-                    onlyMsg('用户添加成功');
+                    layer.msg(data.message, {icon: 1});
                     $('#user_main_div #user_table').bootstrapTable("refresh");
-                }else{
-                    alertMsg(data.status,0)
+                }else if(data.status=='error'){
+                    layer.msg(data.message, {icon: 1});
                 }
             },error:function(){
                 closeMsg(o);
-                alertMsg("系统异常,请重试",0)
+                layer.msg('系统错误请联系管理员!', {icon: 1});
             }
         })
     }
 </script>
-
 <div style="width:600px;padding:15px;">
     <form class="form-horizontal" id="userAddForm" autocomplete="off">
         <div class="form-group">
@@ -69,8 +72,9 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">城市</label>
             <div class="col-xs-5">
-                <select class="form-control" name="city" id="city">
+                <select class="form-control select2 select2-container select2-container--default select2-container--focus" name="city" id="city">
                     <option value=""></option>
+                </select>
                 </select>
             </div>
         </div>
@@ -79,9 +83,9 @@
             <div class="col-xs-5">
                 <select class="form-control" name="cardType" id="cardType">
                     <option value=""></option>
-                    [#list cardTypes as cardType]
+                    <#list cardTypes as cardType>
                         <option value="${cardType}">${cardType.description}</option>
-                    [/#list]
+                    </#list>
                 </select>
             </div>
         </div>
@@ -108,9 +112,9 @@
             <div class="col-xs-5">
                 <select class="form-control" name="customerType" id="customerType">
                     <option value=""></option>
-                    [#list customerTypes as customerType]
+                    <#list customerTypes as customerType>
                         <option value="${customerType}">${customerType.description}</option>
-                    [/#list]
+                    </#list>
                 </select>
             </div>
         </div>

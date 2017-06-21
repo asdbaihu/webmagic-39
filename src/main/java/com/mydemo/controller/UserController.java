@@ -12,11 +12,14 @@ import com.mydemo.domain.enumtype.CustomerType;
 import com.mydemo.domain.vo.UserVo;
 import com.mydemo.service.CityService;
 import com.mydemo.service.UserService;
+import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -41,7 +44,7 @@ public class UserController extends BaseController{
         return "/user/userlist";
     }
 
-    @RequestMapping("/list")
+    @RequestMapping(value="/list")
     @ResponseBody
     public Object list(UserBo bo, Pager<UserVo> page) {
         page = userService.getPage(bo, page);
@@ -52,7 +55,7 @@ public class UserController extends BaseController{
     public String toAdd(ModelMap modelMap) {
         modelMap.put("cardTypes", CardType.values());
         modelMap.put("customerTypes", CustomerType.values());
-        return "/user/toAdd";
+        return "/user/add";
     }
 
     @RequestMapping("/save")
@@ -75,7 +78,7 @@ public class UserController extends BaseController{
         modelMap.put("cardTypes", CardType.values());
         modelMap.put("customerTypes", CustomerType.values());
         modelMap.put("user",user);
-        return "user/toEdit";
+        return "user/update";
     }
 
     @RequestMapping("/update")
