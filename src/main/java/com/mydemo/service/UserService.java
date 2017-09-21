@@ -64,4 +64,13 @@ public class UserService{
     public User getById(Long id){
         return userMapper.selectByPrimaryKey(id);
     }
+
+    public boolean login(String username, String password) {
+        User user = userMapper.getUser(username, password);
+        if (user == null) {
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

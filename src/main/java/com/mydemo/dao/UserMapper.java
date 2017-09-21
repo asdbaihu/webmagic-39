@@ -19,4 +19,6 @@ public interface UserMapper extends MyMapper<User> {
     List<UserVo> getList(@Param("bo") UserBo bo, @Param("pager") Pager<UserVo> pager);
 
     Long deleteByIds(@Param("ids") List<Long> ids);
+
+    public User getUser(@Param("username") String username, @Param("password") String password);
 }
