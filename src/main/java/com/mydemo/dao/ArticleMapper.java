@@ -8,21 +8,21 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface ArticleMapper extends MyMapper<Article> {
-    public Article getArticleById(@Param("id") Long id);
+    Article getArticleById(@Param("id") Long id);
 
-    public List<Article> getFirst10Article();
+    List<Article> getFirst10Article();
 
-    public List<Article> getArticlesByCategoryName(Long categoryId);
+    List<Article> getArticlesBycategoryId(Long categoryId);
 
-    public List<Category> getCategories();
+    List<Category> getCategories();
 
-    public void writeBlog(Article article);
+    void writeBlog(Article article);
 
-    public Long getCategoryIdByName(String name);
+    Long getCategoryIdByName(String name);
 
-    public void deleteArticleById(Long id);
+    void deleteArticleById(Long id);
 
-    public void updateArticleById(Article article);
+    void updateArticleById(Article article);
 
-    public Category getCategoryById(Long id);
+    Category getCategoryById(Long id);
 }

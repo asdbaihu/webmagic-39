@@ -1,8 +1,10 @@
 package com.mydemo.service;
 
 import com.mydemo.common.Constant;
+import com.mydemo.dao.CategoryMapper;
 import com.mydemo.dao.CityMapper;
 import com.mydemo.dao.UserMapper;
+import com.mydemo.domain.Category;
 import com.mydemo.domain.City;
 import com.mydemo.domain.User;
 import com.mydemo.domain.enumtype.CityType;
@@ -24,6 +26,9 @@ public class InitService {
 
     @Autowired
     private CityMapper cityMapper;
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     public void init(){
 
@@ -47,5 +52,13 @@ public class InitService {
         }
         Constant.COUNTRY_MAP_TWO = countryMapTwo;
         Constant.CITY_MAP = cityMap;
+
+        List<Category> categoryList = categoryMapper.selectAll();
+        Constant.CATEGORY_LIST = categoryList;
+        Map<Long,Category> categoryMap = new HashMap<>();
+        for(Category category : categoryList){
+            categoryMap.put(category.getId(),category);
+        }
+        Constant.CATEGORY_MAP = categoryMap;
     }
 }

@@ -20,5 +20,5 @@ public interface UserMapper extends MyMapper<User> {
 
     Long deleteByIds(@Param("ids") List<Long> ids);
 
-    public User getUser(@Param("username") String username, @Param("password") String password);
+    User getUser(@Param("username") String username, @Param("password") String password);
 }

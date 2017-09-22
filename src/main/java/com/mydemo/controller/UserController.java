@@ -10,18 +10,21 @@ import com.mydemo.domain.enumtype.CardType;
 import com.mydemo.domain.enumtype.CityType;
 import com.mydemo.domain.enumtype.CustomerType;
 import com.mydemo.domain.vo.UserVo;
+import com.mydemo.service.ArticleService;
 import com.mydemo.service.CityService;
 import com.mydemo.service.UserService;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +40,8 @@ public class UserController extends BaseController{
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ArticleService articleService;
 
     @RequestMapping("/toList")
     public String toList() {
@@ -101,5 +106,29 @@ public class UserController extends BaseController{
         boolean flag = userService.deleteByIds(ids);
         putStatus(flag,map);
         return map;
+    }
+
+    @RequestMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("articles", articleService.getFirst10Article());
+        return "admin/index";
+    }
+
+    @RequestMapping("/login")
+    public String toLogin() {
+        return "admin/login";
+    }
+
+    @RequestMapping(value = "/home")
+    public String doLogin(HttpServletRequest request, User user, ModelMap model) {
+//        if (userService.login(user.getUserName(), user.getPassword())) {
+//            request.getSession().setAttribute("user", user);
+//            model.addAttribute("user", user);
+//            return "redirect:/sang";
+//        } else {
+//            model.addAttribute("error", "用户名或密码错误");
+//            return "admin/login";
+//        }
+        return "views/index";
     }
 }

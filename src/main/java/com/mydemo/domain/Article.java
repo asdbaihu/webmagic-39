@@ -1,5 +1,7 @@
 package com.mydemo.domain;
 
+import java.util.Date;
+
 /**
  * Created by sang on 17-3-10.
  */
@@ -7,7 +9,7 @@ public class Article {
     private long id;
     private String title;
     private String content;
-    private String date;
+    private Date date;
     private String summary;
     private String category;
     private long categoryId;
@@ -60,11 +62,11 @@ public class Article {
         this.content = content;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

@@ -1,5 +1,6 @@
 package com.mydemo.common;
 
+import com.mydemo.domain.Category;
 import com.mydemo.domain.City;
 import com.mydemo.domain.User;
 import org.springframework.stereotype.Component;
@@ -24,4 +25,8 @@ public class Constant {
     public static Map<Long,City> CITY_MAP = new HashMap<>();
 
     public static Map<String,City> COUNTRY_MAP_TWO = new HashMap<>();
+
+    public static List<Category> CATEGORY_LIST = new ArrayList<>();
+
+    public static Map<Long,Category> CATEGORY_MAP = new HashMap<>();
 }

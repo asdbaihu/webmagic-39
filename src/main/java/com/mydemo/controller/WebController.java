@@ -1,13 +1,18 @@
 package com.mydemo.controller;
 
+import com.mydemo.common.Constant;
 import com.mydemo.config.init.InitConfig;
+import com.mydemo.domain.User;
 import com.mydemo.service.InitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -22,8 +27,8 @@ public class WebController {
 
 
     @RequestMapping("/")
-    public String web(){
-        return "index";
+    public String web(ModelMap model){
+        return "admin/login";
     }
 
     @RequestMapping("/init")
@@ -34,4 +39,12 @@ public class WebController {
         logger.info("初始化内存constant结束");
         return "success";
     }
+
+
+
+    @RequestMapping(value = "/home")
+    public String doLogin(ModelMap model) {
+        return "views/index";
+    }
+
 }

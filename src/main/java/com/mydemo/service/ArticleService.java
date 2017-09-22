@@ -3,6 +3,7 @@ package com.mydemo.service;
 import com.mydemo.dao.ArticleMapper;
 import com.mydemo.domain.Article;
 import com.mydemo.domain.Category;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,14 +13,12 @@ import java.util.List;
 
 @Service
 public class ArticleService {
-    @Resource
+
+    @Autowired
     private ArticleMapper articleDao;
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public Article getArticleById(Long id) {
-        Article article = articleDao.getArticleById(id);
-        article.setCategory(articleDao.getCategoryById(article.getCategoryId()).getDisplayName());
-        return article;
+        return articleDao.getArticleById(id);
     }
 
     public List<Article> getFirst10Article() {
@@ -33,7 +32,7 @@ public class ArticleService {
     public void writeBlog(Article article) {
         Long categoryId = articleDao.getCategoryIdByName(article.getCategory());
         article.setCategoryId(categoryId);
-        article.setDate(sdf.format(new Date()));
+        article.setDate(new Date());
         if (article.getSummary() == null || "".equals(article.getSummary())) {
             if (article.getContent().length() > 20) {
                 article.setSummary(article.getContent().substring(0, 20));
@@ -49,7 +48,7 @@ public class ArticleService {
     }
 
     public void updateBlog(Article article) {
-        article.setDate(sdf.format(new Date()));
+        article.setDate(new Date());
         if (article.getSummary() == null || "".equals(article.getSummary())) {
             if (article.getContent().length() > 20) {
                 article.setSummary(article.getContent().substring(0, 20));
@@ -60,9 +59,8 @@ public class ArticleService {
         articleDao.updateArticleById(article);
     }
 
-    public List<Article> getArticlesByCategoryName(String name) {
-        Long categoryId = articleDao.getCategoryIdByName(name);
-        List<Article> articles = articleDao.getArticlesByCategoryName(categoryId);
+    public List<Article> getArticlesBycategoryId(Long categoryId) {
+        List<Article> articles = articleDao.getArticlesBycategoryId(categoryId);
         return articles;
     }
 }
