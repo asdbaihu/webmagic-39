@@ -8,32 +8,38 @@
     <link href="${basePath}/bootstrap/css/bootstrap.css" rel="stylesheet"/>
     <link href="${basePath}/bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
     <link rel="stylesheet" href="${basePath}/editormd/css/editormd.css"/>
-    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="${basePath}/editormd/images/favicon.ico" type="image/x-icon"/>
 </head>
 <body>
 <div class="container">
-    <form method="post" action="/sang/write">
+    <form method="post" action="${basePath}/article/update">
         <br>
         <br>
         <div class="row">
             <div class="col-lg-6">
                 <div class="input-group">
                     <div class="input-group-btn">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false" id="categoryBtn">分类
-                                </button>
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false" id="categoryBtn">${article.category}
-                                </button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" id="categoryBtn">
+                            <#list categories as category>
+                            <#if article.categoryId==category.id>
+                                ${category.displayName}
+                            </#if>
+                            </#list>
+
+                        </button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" id="categoryBtn">${article.category}
+                        </button>
                         <ul class="dropdown-menu">
                             <#list categories as category>
                                 <li>
-                                    <a onclick="selectCategory('${category.name}','${category.displayName}');">${category.displayName}</a>
+                                    <a onclick="selectCategory('${category.id}','${category.displayName}');">${category.displayName}</a>
                                 </li>
                             </#list>
                         </ul>
                     </div>
-                    <input name="category" id="cateoryInput" type="hidden">
+                    <input name="categoryId" id="cateoryInput" type="hidden" value="${article.categoryId}">
                     <input name="id" type="hidden" value="${article.id}">
                     <input type="text" class="form-control" placeholder="标题" name="title" value="${article.title}">
                 </div>
@@ -43,7 +49,7 @@
 <br>
 <div id="layout" style="width: 100%;height: 100%">
     <div id="test-editormd">
-            <textarea style="display: none" name="content"></textarea>
+            <textarea style="display: none" name="content">${article.content}</textarea>
     </div>
 </div>
 
@@ -58,8 +64,6 @@
             imageUpload: true,
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
             imageUploadURL: ""
-
-
         });
     });
 </script>

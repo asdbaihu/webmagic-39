@@ -103,7 +103,7 @@ public class CityController extends BaseController{
         Map<String,String> map = new HashMap<>();
         if(ids==null||ids.isEmpty()){
             map.put("status","error");
-            map.put("message","请选择一个用户删除!!!");
+            map.put("message","请选择一个城市删除!!!");
         }
         boolean flag = cityService.deleteByIds(ids);
         putStatus(flag,map);

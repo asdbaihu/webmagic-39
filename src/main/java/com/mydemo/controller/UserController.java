@@ -45,7 +45,6 @@ public class UserController extends BaseController{
 
     @RequestMapping("/toList")
     public String toList() {
-
         return "/user/userlist";
     }
 
@@ -121,14 +120,13 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "/home")
     public String doLogin(HttpServletRequest request, User user, ModelMap model) {
-//        if (userService.login(user.getUserName(), user.getPassword())) {
-//            request.getSession().setAttribute("user", user);
-//            model.addAttribute("user", user);
-//            return "redirect:/sang";
-//        } else {
-//            model.addAttribute("error", "用户名或密码错误");
-//            return "admin/login";
-//        }
-        return "views/index";
+        if (userService.login(user.getUserName(), user.getPassword())) {
+            request.getSession().setAttribute("user", user);
+            model.put("user", user);
+            return "redirect:/user/admin";
+        } else {
+            model.addAttribute("error", "用户名或密码错误");
+            return "admin/login";
+        }
     }
 }

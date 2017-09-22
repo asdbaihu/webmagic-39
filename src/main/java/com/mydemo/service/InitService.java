@@ -40,18 +40,18 @@ public class InitService {
         }
         Constant.USER_MAP = userMap;
 
-        List<City> cityList = cityMapper.selectAll();
-        Constant.CITY_LIST = cityList;
-        Map<Long,City> cityMap = new HashMap<>();
-        Map<String,City> countryMapTwo = new HashMap<>();
-        for(City city : cityList){
-            cityMap.put(city.getId(),city);
-            if(CityType.COUNTRY.equals(city.getCityType())){
-                countryMapTwo.put(city.getCountryCode(),city);
-            }
-        }
-        Constant.COUNTRY_MAP_TWO = countryMapTwo;
-        Constant.CITY_MAP = cityMap;
+//        List<City> cityList = cityMapper.selectAll();
+//        Constant.CITY_LIST = cityList;
+//        Map<Long,City> cityMap = new HashMap<>();
+//        Map<String,City> countryMapTwo = new HashMap<>();
+//        for(City city : cityList){
+//            cityMap.put(city.getId(),city);
+//            if(CityType.COUNTRY.equals(city.getCityType())){
+//                countryMapTwo.put(city.getCountryCode(),city);
+//            }
+//        }
+//        Constant.COUNTRY_MAP_TWO = countryMapTwo;
+//        Constant.CITY_MAP = cityMap;
 
         List<Category> categoryList = categoryMapper.selectAll();
         Constant.CATEGORY_LIST = categoryList;

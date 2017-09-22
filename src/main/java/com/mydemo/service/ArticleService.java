@@ -18,20 +18,14 @@ public class ArticleService {
     private ArticleMapper articleDao;
 
     public Article getArticleById(Long id) {
-        return articleDao.getArticleById(id);
+        return articleDao.selectByPrimaryKey(id);
     }
 
     public List<Article> getFirst10Article() {
         return articleDao.getFirst10Article();
     }
 
-    public List<Category> getCategories() {
-        return articleDao.getCategories();
-    }
-
-    public void writeBlog(Article article) {
-        Long categoryId = articleDao.getCategoryIdByName(article.getCategory());
-        article.setCategoryId(categoryId);
+    public void addArticle(Article article) {
         article.setDate(new Date());
         if (article.getSummary() == null || "".equals(article.getSummary())) {
             if (article.getContent().length() > 20) {
@@ -40,23 +34,23 @@ public class ArticleService {
                 article.setSummary(article.getContent().substring(0, article.getContent().length()));
             }
         }
-        articleDao.writeBlog(article);
+        articleDao.insert(article);
+    }
+
+    public void updateArticle(Article article){
+        article.setDate(new Date());
+        if (article.getSummary() == null || "".equals(article.getSummary())) {
+            if (article.getContent().length() > 20) {
+                article.setSummary(article.getContent().substring(0, 20));
+            } else {
+                article.setSummary(article.getContent().substring(0, article.getContent().length()));
+            }
+        }
+        articleDao.updateByPrimaryKey(article);
     }
 
     public void deleteArticleById(Long id) {
         articleDao.deleteArticleById(id);
-    }
-
-    public void updateBlog(Article article) {
-        article.setDate(new Date());
-        if (article.getSummary() == null || "".equals(article.getSummary())) {
-            if (article.getContent().length() > 20) {
-                article.setSummary(article.getContent().substring(0, 20));
-            } else {
-                article.setSummary(article.getContent().substring(0, article.getContent().length()));
-            }
-        }
-        articleDao.updateArticleById(article);
     }
 
     public List<Article> getArticlesBycategoryId(Long categoryId) {

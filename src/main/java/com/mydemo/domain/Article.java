@@ -6,28 +6,19 @@ import java.util.Date;
  * Created by sang on 17-3-10.
  */
 public class Article {
-    private long id;
+    private Long id;
     private String title;
     private String content;
     private Date date;
     private String summary;
-    private String category;
-    private long categoryId;
+    private Long categoryId;
 
     public long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(long categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public String getSummary() {

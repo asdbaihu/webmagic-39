@@ -13,7 +13,7 @@
         <!-- Default panel contents -->
         <div class="panel-heading">文章列表</div>
         <div class="panel-body">
-            <p><a class="btn btn-primary btn-sm" href="${basePath}/article/write" role="button">写博客</a></p>
+            <p><a class="btn btn-primary btn-sm" href="${basePath}/article/toAdd" role="button">写博客</a></p>
         </div>
 
         <table class="table">
@@ -29,8 +29,8 @@
                         <td>${article.id}</td>
                         <td>${article.title}</td>
                         <td>${article.summary}</td>
-                        <td><a href="">修改</a></td>
-                        <td><a href="">删除</a></td>
+                        <td><a href="${basePath}/article/toUpdate?id=${article.id}">修改</a></td>
+                        <td><a href="${basePath}/article/delete?id=${article.id}">删除</a></td>
                     </tr>
                 </#list>
             </#if>
