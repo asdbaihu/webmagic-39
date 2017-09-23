@@ -4,11 +4,13 @@ import com.mydemo.common.Constant;
 import com.mydemo.common.Pager;
 import com.mydemo.domain.City;
 import com.mydemo.domain.User;
+import com.mydemo.domain.bo.ArticleBo;
 import com.mydemo.domain.bo.CityBo;
 import com.mydemo.domain.bo.UserBo;
 import com.mydemo.domain.enumtype.CardType;
 import com.mydemo.domain.enumtype.CityType;
 import com.mydemo.domain.enumtype.CustomerType;
+import com.mydemo.domain.vo.ArticleVo;
 import com.mydemo.domain.vo.UserVo;
 import com.mydemo.service.ArticleService;
 import com.mydemo.service.CityService;
@@ -108,8 +110,9 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("articles", articleService.getFirst10Article());
+    public String admin(ModelMap model, ArticleBo bo, Pager<ArticleVo> page) {
+        page = articleService.getPage(bo, page);
+        model.put("page", page);
         return "admin/index";
     }
 

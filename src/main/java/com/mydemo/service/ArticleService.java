@@ -1,8 +1,14 @@
 package com.mydemo.service;
 
+import com.mydemo.common.Pager;
 import com.mydemo.dao.ArticleMapper;
 import com.mydemo.domain.Article;
 import com.mydemo.domain.Category;
+import com.mydemo.domain.bo.ArticleBo;
+import com.mydemo.domain.bo.CityBo;
+import com.mydemo.domain.vo.ArticleVo;
+import com.mydemo.domain.vo.CityVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +27,14 @@ public class ArticleService {
         return articleDao.selectByPrimaryKey(id);
     }
 
-    public List<Article> getFirst10Article() {
-        return articleDao.getFirst10Article();
+    public Pager<ArticleVo> getPage(ArticleBo bo, Pager<ArticleVo> page) {
+        Pager<ArticleVo> pageInfo = new Pager<>();
+        BeanUtils.copyProperties(page,pageInfo);
+        Long total = articleDao.getCount(bo);
+        pageInfo.setTotal(total);
+        List<ArticleVo> list = articleDao.getList(bo,page);
+        pageInfo.setRows(list);
+        return pageInfo;
     }
 
     public void addArticle(Article article) {
@@ -50,7 +62,7 @@ public class ArticleService {
     }
 
     public void deleteArticleById(Long id) {
-        articleDao.deleteArticleById(id);
+        articleDao.deleteByPrimaryKey(id);
     }
 
     public List<Article> getArticlesBycategoryId(Long categoryId) {

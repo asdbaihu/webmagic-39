@@ -24,7 +24,7 @@
 
 <script type="text/javascript">
     $(function(){
-        $.post("${basePath}/category/",function(data){
+        $.post("${basePath}/category/getAll.html",function(data){
             $("#container").append(data);
         });
     });

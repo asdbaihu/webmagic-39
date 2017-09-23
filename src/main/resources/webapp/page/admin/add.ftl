@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container">
-    <form method="post" action="${basePath}/article/save">
+    <form method="post" action="${basePath}/article/save.html">
         <br>
         <br>
         <div class="row">

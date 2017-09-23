@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/category")
 public class CategoryController extends BaseController{
 
-    @RequestMapping("/")
+    @RequestMapping("/getAll")
     public String getCategories(ModelMap model) {
         model.put("categoryList", Constant.CATEGORY_LIST);
         return "views/comm/category";

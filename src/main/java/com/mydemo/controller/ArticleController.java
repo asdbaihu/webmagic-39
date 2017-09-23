@@ -1,8 +1,13 @@
 package com.mydemo.controller;
 
 import com.mydemo.common.Constant;
+import com.mydemo.common.Pager;
 import com.mydemo.domain.Article;
 import com.mydemo.domain.Category;
+import com.mydemo.domain.bo.ArticleBo;
+import com.mydemo.domain.bo.CityBo;
+import com.mydemo.domain.vo.ArticleVo;
+import com.mydemo.domain.vo.CityVo;
 import com.mydemo.service.ArticleService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -30,22 +35,15 @@ public class ArticleController extends BaseController{
     @Resource
     private ArticleService articleService;
 
-    @RequestMapping("/")
-    public String index(ModelMap model) {
-        List<Article> articles = articleService.getFirst10Article();
-        model.put("articles", articles);
-        return "admin/index";
-    }
-
-    @RequestMapping("/column")
-    public String column(ModelMap model,Long id) {
+    @RequestMapping("/column/{id}")
+    public String column(ModelMap model,@PathVariable("id") Long id) {
         List<Article> articles = articleService.getArticlesBycategoryId(id);
         model.put("articles", articles);
         return "views/index";
     }
 
-    @RequestMapping("/detail")
-    public String detail(Long id, ModelMap model) {
+    @RequestMapping("/detail/{id}")
+    public String detail(@PathVariable("id") Long id, ModelMap model) {
         Article article = articleService.getArticleById(id);
         Markdown markdown = new Markdown();
         try {
@@ -60,8 +58,8 @@ public class ArticleController extends BaseController{
         return "views/detail";
     }
 
-    @RequestMapping("/toUpdate")
-    public String toUpdate(ModelMap model,Long id) {
+    @RequestMapping("/toUpdate/{id}")
+    public String toUpdate(ModelMap model,@PathVariable("id") Long id) {
         model.put("categories", Constant.CATEGORY_LIST);
         model.put("article",articleService.getArticleById(id));
         return "admin/update";
@@ -76,18 +74,17 @@ public class ArticleController extends BaseController{
     @RequestMapping(value = "/save")
     public Object save(Article article) {
         articleService.addArticle(article);
-        return "admin/index";
+        return "redirect:/user/admin/";
     }
 
     @RequestMapping(value = "/update")
     public Object update(Article article){
         articleService.updateArticle(article);
-        return "admin/index";
+        return "redirect:/user/admin/";
     }
 
-    @RequestMapping(value="/delete")
-    public Object delete(Long id) {
+    @RequestMapping(value="/delete/{id}")
+    public void delete(@PathVariable("id") Long id) {
         articleService.deleteArticleById(id);
-        return "admin/index";
     }
 }

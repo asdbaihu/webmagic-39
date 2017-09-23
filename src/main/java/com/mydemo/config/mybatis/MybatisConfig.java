@@ -47,15 +47,17 @@ public class MybatisConfig {
         datasource.setInitialSize(5);
         datasource.setMinIdle(5);
         datasource.setMaxActive(20);
-        datasource.setMaxWait(60000);
-        datasource.setTimeBetweenEvictionRunsMillis(60000);
-        datasource.setMinEvictableIdleTimeMillis(300000);
+        datasource.setMaxWait(120000);
+        datasource.setTimeBetweenEvictionRunsMillis(120000);
+        datasource.setMinEvictableIdleTimeMillis(600000);
         datasource.setValidationQuery("SELECT 1 FROM DUAL");
         datasource.setTestWhileIdle(true);
         datasource.setTestOnBorrow(false);
         datasource.setTestOnReturn(false);
         datasource.setPoolPreparedStatements(true);
         datasource.setMaxPoolPreparedStatementPerConnectionSize(20);
+        datasource.setRemoveAbandoned(true);
+        datasource.setRemoveAbandonedTimeout(120000);
         try {
             datasource.setFilters("stat,wall,log4j");
         } catch (SQLException e) {

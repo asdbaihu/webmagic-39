@@ -32,7 +32,7 @@ public class WebController {
 
     @RequestMapping("/")
     public String web(ModelMap model){
-        return "admin/login";
+        return "redirect:home";
     }
 
     @RequestMapping("/init")
