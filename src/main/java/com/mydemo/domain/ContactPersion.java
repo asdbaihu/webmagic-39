@@ -18,7 +18,7 @@ public class ContactPersion implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long contactPersionId;
     //名称
     private String name;
     //性别
@@ -48,12 +48,12 @@ public class ContactPersion implements Serializable{
     //最近一次修改时间
     private Date updateTime;
 
-    public Long getId() {
-        return id;
+    public Long getContactPersionId() {
+        return contactPersionId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setContactPersionId(Long contactPersionId) {
+        this.contactPersionId = contactPersionId;
     }
 
     public String getName() {

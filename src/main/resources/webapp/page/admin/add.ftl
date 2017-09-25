@@ -28,7 +28,7 @@
                         <ul class="dropdown-menu">
                             <#list categories as category>
                                 <li>
-                                    <a onclick="selectCategory('${category.id}','${category.displayName}');">${category.displayName}</a>
+                                    <a onclick="selectCategory('${category.categoryId}','${category.displayName}');">${category.displayName}</a>
                                 </li>
                             </#list>
                         </ul>

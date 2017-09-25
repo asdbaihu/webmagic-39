@@ -10,17 +10,17 @@ import javax.persistence.Id;
 public class Comments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long commentsId;
     private long articleId;
     private String commIp;
     private String comment;
 
-    public long getId() {
-        return id;
+    public long getCommentsId() {
+        return commentsId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setCommentsId(long commentsId) {
+        this.commentsId = commentsId;
     }
 
     public long getArticleId() {

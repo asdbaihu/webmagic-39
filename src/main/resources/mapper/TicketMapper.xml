@@ -4,7 +4,7 @@
 <mapper namespace="com.mydemo.dao.TicketMapper">
 
     <resultMap id="ticket_map" type="com.mydemo.domain.Ticket">
-        <id property="id" column="id" jdbcType="BIGINT"/>
+        <id property="ticketId" column="ticket_id" jdbcType="BIGINT"/>
         <result property="trainNumber" column="train_number" jdbcType="VARCHAR" />
         <result property="originatStation" column="originat_station" jdbcType="VARCHAR" />
         <result property="terminalStation" column="terminal_station" jdbcType="VARCHAR" />
@@ -15,7 +15,7 @@
     </resultMap>
 
     <select id="getCount" resultType="Long">
-        select count(id) from ticket where 1 = 1
+        select count(ticket_id) from ticket where 1 = 1
     </select>
 
 

@@ -7,7 +7,7 @@ import com.mydemo.domain.enumtype.CustomerType;
  */
 public class ContactPersionBo {
 
-    private Long id;
+    private Long contactPersionId;
 
     private String name;
 
@@ -15,12 +15,12 @@ public class ContactPersionBo {
 
     private CustomerType customerType;
 
-    public Long getId() {
-        return id;
+    public Long getContactPersionId() {
+        return contactPersionId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setContactPersionId(Long contactPersionId) {
+        this.contactPersionId = contactPersionId;
     }
 
     public String getName() {

@@ -4,7 +4,7 @@
 <mapper namespace="com.mydemo.dao.CityMapper">
 
     <resultMap id="city_map" type="com.mydemo.domain.City">
-        <id property="id" column="id" jdbcType="BIGINT"/>
+        <id property="cityId" column="city_id" jdbcType="BIGINT"/>
         <result property="cnName" column="cn_name" jdbcType="VARCHAR" />
         <result property="enName" column="en_name" jdbcType="VARCHAR" />
         <result property="countryCode" column="country_code" jdbcType="VARCHAR" />
@@ -14,7 +14,7 @@
     </resultMap>
 
     <select id="getSelect2List" resultMap="city_map">
-        select id,cn_name,en_name,country_code,country_code_more,city_type,remark from city where 1=1
+        select city_id,cn_name,en_name,country_code,country_code_more,city_type,remark from city where 1=1
         <if test="bo.search!=null and bo.search!=''">
             and upper(concat(ifnull(cn_name,''),ifnull(en_name,''),ifnull(country_code,''),ifnull(country_code_more,''),ifnull(remark,''))) like upper(concat('%',#{bo.search},'%'))
         </if>
@@ -24,7 +24,7 @@
     </select>
 
     <select id="getCount" resultType="Long">
-        select count(id) from city where 1 = 1
+        select count(city_id) from city where 1 = 1
         <if test="bo.cnName!=null and bo.cnName!=''">
             and upper(cn_name) = upper(concat('%',#{bo.cnName},'%'))
         </if>
@@ -47,7 +47,7 @@
 
 
     <select id="getList" resultMap="city_map">
-        select id,cn_name,en_name,country_code,country_code_more,city_type,remark from city where 1 = 1
+        select city_id,cn_name,en_name,country_code,country_code_more,city_type,remark from city where 1 = 1
         <if test="bo.cnName!=null and bo.cnName!=''">
             and upper(cn_name) = upper(concat('%',#{bo.cnName},'%'))
         </if>
@@ -72,7 +72,7 @@
     </select>
 
     <delete id="deleteByIds">
-        delete from city where id in
+        delete from city where city_id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>

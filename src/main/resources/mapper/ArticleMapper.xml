@@ -5,7 +5,7 @@
 <mapper namespace="com.mydemo.dao.ArticleMapper">
 
     <resultMap id="article_map" type="com.mydemo.domain.Article">
-        <id property="id" column="id" jdbcType="BIGINT"/>
+        <id property="articleId" column="article_id" jdbcType="BIGINT"/>
         <result property="title" column="title" jdbcType="VARCHAR" />
         <result property="content" column="content" jdbcType="VARCHAR" />
         <result property="date" column="date" jdbcType="DATE" />
@@ -14,12 +14,12 @@
     </resultMap>
 
     <select id="getCount" resultType="Long">
-        select count(id) from article where 1 = 1
+        select count(article_id) from article where 1 = 1
     </select>
 
 
     <select id="getList" resultMap="article_map">
-        select * from article where 1 = 1
+        select article_id,title,summary from article where 1 = 1
         <if test="pager.sort!=null">
             order by m.${pager.sort} ${pager.order}
         </if>

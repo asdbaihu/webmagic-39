@@ -11,13 +11,13 @@
 <body>
 <div class="container">
 
-    <form class="form-signin" action="" method="post">
+    <form class="form-signin" action="${basePath}/user/home" method="post">
         <h2 class="form-signin-heading">请登录</h2>
         <div></div>
         <label for="inputEmail" class="sr-only">请输入用户名</label>
-        <input type="text" id="inputEmail" name="username" value="123" class="form-control" placeholder="用户名" required autofocus>
+        <input type="text" id="inputEmail" name="userName" class="form-control" placeholder="用户名" required autofocus>
         <label for="inputPassword" class="sr-only">密码</label>
-        <input type="password" id="inputPassword" value="123" name="password" class="form-control" placeholder="密码" required>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
         <div class="checkbox">
             <label>
                 <input type="checkbox" value="remember-me"> 记住我

@@ -43,7 +43,7 @@ public class CityController extends BaseController{
             List<City> list = cityService.getSelect2List(bo);
             for(City city : list){
                 Map<String,String> map = new HashMap<>();
-                map.put("id",String.valueOf(city.getId()));
+                map.put("id",String.valueOf(city.getCityId()));
                 map.put("text",city.getCnName());
                 cityDate.add(map);
             }

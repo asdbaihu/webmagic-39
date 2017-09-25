@@ -36,7 +36,7 @@ public class UserService{
         for(UserVo userVo :list){
             userVo.setCardTypeName(userVo.getCardType().getDescription());
             City city = Constant.CITY_MAP.get(userVo.getCity());
-            if (city!=null&&city.getId()>0) {
+            if (city!=null&&city.getCityId()>0) {
                 userVo.setCityName(city.getCnName());
             }
             userVo.setCustomerTypeName(userVo.getCustomerType().getDescription());

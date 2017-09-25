@@ -4,7 +4,7 @@
 <mapper namespace="com.mydemo.dao.ContactPersionMapper">
 
     <resultMap id="contact_persion_map" type="com.mydemo.domain.ContactPersion">
-        <id property="id" column="id" jdbcType="BIGINT"/>
+        <id property="contactPersionId" column="contact_persion_id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR" />
         <result property="sex" column="sex" jdbcType="VARCHAR" />
         <result property="password" column="password" jdbcType="VARCHAR" />
@@ -23,9 +23,9 @@
     </resultMap>
 
     <select id="getCount" resultType="Long">
-        select count(id) from contact_persion u where 1=1
+        select count(contact_persion_id) from contact_persion u where 1=1
         <if test="bo.id!=null">
-            and u.id = #{bo.id}
+            and u.contact_persion_id = #{bo.contactPersionId}
         </if>
         <if test="bo.name!=null and bo.name!=''">
             and upper(u.name) like upper(concat('%',#{bo.name},'%'))
@@ -41,7 +41,7 @@
     <select id="getList" resultMap="contact_persion_map">
         select * from contact_persion where 1=1
         <if test="bo.id!=null">
-            and u.id = #{bo.id}
+            and u.contact_persion_id = #{bo.contactPersionId}
         </if>
         <if test="bo.name!=null and bo.name!=''">
             and upper(u.name) like upper(concat('%',#{bo.name},'%'))
@@ -58,7 +58,7 @@
     </select>
 
     <delete id="deleteByIds">
-        delete from contact_persion where id in
+        delete from contact_persion where contact_persion_id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>

@@ -36,7 +36,7 @@ public class InitService {
         Constant.USER_LIST = userList;
         Map<Long,User> userMap = new HashMap<>();
         for (User user : userList){
-            userMap.put(user.getId(),user);
+            userMap.put(user.getUserId(),user);
         }
         Constant.USER_MAP = userMap;
 
@@ -57,7 +57,7 @@ public class InitService {
         Constant.CATEGORY_LIST = categoryList;
         Map<Long,Category> categoryMap = new HashMap<>();
         for(Category category : categoryList){
-            categoryMap.put(category.getId(),category);
+            categoryMap.put(category.getCategoryId(),category);
         }
         Constant.CATEGORY_MAP = categoryMap;
     }

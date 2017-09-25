@@ -3,7 +3,7 @@
     <ul class="nav navbar-nav" id="nv1">
     <#if categoryList??>
         <#list categoryList as category>
-            <li id="firstPage"><a href="${basePath}/article/column/${category.id}">${category.displayName}</a></li>
+            <li id="firstPage"><a href="${basePath}/article/column/${category.categoryId}.html">${category.displayName}</a></li>
         </#list>
     </#if>
     </ul>

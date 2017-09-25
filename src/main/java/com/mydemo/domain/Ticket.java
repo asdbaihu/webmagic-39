@@ -17,7 +17,7 @@ public class Ticket implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long ticketId;
     //车次
     private String trainNumber;
     //始发站
@@ -73,12 +73,12 @@ public class Ticket implements Serializable {
         this.trainNumber = trainNumber;
     }
 
-    public Long getId() {
-        return id;
+    public Long getTicketId() {
+        return ticketId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public TicketStatus getTicketStatus() {

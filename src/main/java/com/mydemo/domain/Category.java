@@ -3,23 +3,26 @@ package com.mydemo.domain;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * Created by sang on 17-3-11.
  */
-public class Category {
+public class Category implements Serializable {
+
+    private static final long serialVersionUID = -4887483908258275320L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long categoryId;
     private String name;
     private String displayName;
 
-    public long getId() {
-        return id;
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {

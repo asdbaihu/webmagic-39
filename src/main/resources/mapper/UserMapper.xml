@@ -64,4 +64,8 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="getUser" resultMap="user_list_map">
+        select * from user where user_name = #{username} and password = #{password}
+    </select>
 </mapper>

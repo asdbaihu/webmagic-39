@@ -128,7 +128,7 @@ public class UserController extends BaseController{
             model.put("user", user);
             return "redirect:/user/admin";
         } else {
-            model.addAttribute("error", "用户名或密码错误");
+            model.put("error", "用户名或密码错误");
             return "admin/login";
         }
     }
