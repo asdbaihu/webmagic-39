@@ -1,7 +1,9 @@
-package com.mydemo.job.cnblogs;
+package com.mydemo.job.mafengwo;
 
+import com.alibaba.fastjson.JSON;
 import com.mydemo.domain.Article;
 import com.mydemo.job.BaseTaskJobs;
+import com.mydemo.job.cnblogs.CnblogsTaskJobs;
 import com.mydemo.service.ArticleService;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
@@ -29,28 +31,27 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @Component
-public class CnblogsTaskJobs extends BaseTaskJobs{
+public class MafengwoTaskJobs extends BaseTaskJobs{
 
-    private final static Logger logger = LoggerFactory.getLogger(CnblogsTaskJobs.class);
-    private final static String baseurl = "https://www.cnblogs.com/cate/java/";
-    private final static String pageurl = "https://www.cnblogs.com/mvc/AggSite/PostList.aspx";
+    private final static Logger logger = LoggerFactory.getLogger(MafengwoTaskJobs.class);
+    private final static String baseurl = "http://www.mafengwo.cn/";
+    private final static String pageurl = "http://pagelet.mafengwo.cn/note/pagelet/recommendNoteApi";
 
     private static Map<String,String> pageMap = new HashMap<>();
     static{
-        pageMap.put("CategoryType","SiteCategory");
-        pageMap.put("ParentCategoryId", "2");
-        pageMap.put("CategoryId","106876");
-        pageMap.put("PageIndex","2");
-        pageMap.put("TotalPostCount","4000");
-        pageMap.put("ItemListActionName","PostList");
+        pageMap.put("type","0");
+        pageMap.put("objid", "0");
+        pageMap.put("page","3");
+        pageMap.put("ajax","1");
+        pageMap.put("retina","0");
     }
+
 
     @Resource
     private ArticleService articleService;
 
-    @Scheduled(cron = "0 15 16 * * ? ")
+    @Scheduled(cron = "0 29 1 * * ? ")
     public void pullOnce(){
         logger.info("开始搞事.............");
         int pageNum = pull(baseurl);
@@ -83,10 +84,13 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
         try {
             String body = get(url);
             Document doc = Jsoup.parseBodyFragment(body);
-            Element page = doc.getElementById("paging_block");
-            Elements pages = page.child(0).children();
-            pageNum = Integer.valueOf(pages.get(pages.size()-2).text());
-            Elements elements = doc.getElementsByClass("post_item");
+            Element page = doc.getElementById("_j_tn_pagination");
+            String value = page.child(0).text().split("\\/")[0];
+            String regEx="[^0-9]";
+            value = value.replaceAll(regEx,"");
+            pageNum = Integer.parseInt(value);
+            Element element = doc.getElementById("_j_tn_content");
+            Elements elements = element.getElementsByClass("tn-item clearfix");
             save(elements);
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
@@ -97,34 +101,35 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
 
     private void save(Elements elements) throws Exception{
         for(Element element : elements){
-            Elements viewElement = element.getElementsByClass("article_view");
-            String value = viewElement.get(0).child(0).text();
-            String regEx="[^0-9]";
-            value = value.replaceAll(regEx,"");
-            if(Integer.valueOf(value)>=100){
-                Elements lnkElement = element.getElementsByClass("titlelnk");
+            Element span = element.getElementsByClass("tn-ding").get(0);
+            int value = Integer.valueOf(span.child(1).text());
+            if(value>=500){
+                Element lnkElement = element.child(0).child(0);
                 String href = lnkElement.attr("href");
-                String body = get(href);
+                String body = get(baseurl+href);
                 Document document = Jsoup.parseBodyFragment(body);
-                Element articleEle = document.getElementById("cnblogs_post_body");
-                Element title = document.getElementById("cb_post_title_url");
+                Element articleEle = document.getElementsByClass("vc_article").get(0);
+                Element title = document.getElementsByClass("vi_con").get(0);
                 Article article = new Article();
                 article.setContent(articleEle.toString());
                 article.setTitle(title.text());
-                article.setCategoryId(2l);
+                article.setCategoryId(5l);
                 article.setUserId(1l);
                 article.setViewCount(0);
                 article.setCommentCount(0);
-                articleService.addArticle(article);
+//                articleService.addArticle(article);
             }
         }
     }
 
     public void pagePull(String pageUrl,Map<String,String> dataMap){
         try {
-            String body = post(pageUrl,dataMap);
+            String json = getForURL(pageUrl, JSON.toJSONString(dataMap));
+            Map<String,String> jsonMap = (Map<String,String>)JSON.parse(json);
+            String body = jsonMap.get("data");
             Document doc = Jsoup.parseBodyFragment(body);
-            Elements elements = doc.getElementsByClass("post_item");
+            Element element = doc.getElementById("_j_tn_content");
+            Elements elements = element.getElementsByClass("tn-item clearfix");
             save(elements);
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
@@ -133,28 +138,28 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
 
     public void pagePull(String pageUrl,Map<String,String> dataMap,String yesDate){
         try {
-            String body = post(pageUrl,dataMap);
+            String json = getForURL(pageUrl, JSON.toJSONString(dataMap));
+            Map<String,String> jsonMap = (Map<String,String>)JSON.parse(json);
+            String body = jsonMap.get("data");
             Document doc = Jsoup.parseBodyFragment(body);
-            Elements elements = doc.getElementsByClass("post_item");
+            Element content = doc.getElementById("_j_tn_content");
+            Elements elements = content.getElementsByClass("tn-item clearfix");
             for(Element element : elements) {
-                Elements foot = element.getElementsByClass("post_item_foot");
-                String pullDate = foot.get(0).child(0).text().substring(4);
-                if (pullDate.compareTo(yesDate)>0) {
-                    Elements viewElement = element.getElementsByClass("article_view");
-                    String value = viewElement.get(0).child(0).text();
-                    String regEx = "[^0-9]";
-                    value = value.replaceAll(regEx, "");
-                    if (Integer.valueOf(value) >= 100) {
-                        Elements lnkElement = element.getElementsByClass("titlelnk");
+                String pullDate = element.getElementsByClass("vc_time").get(0).child(0).text();
+                if (pullDate.compareTo(yesDate) > 0) {
+                    Element span = element.getElementsByClass("tn-ding").get(0);
+                    int value = Integer.valueOf(span.child(1).text());
+                    if (value >= 500) {
+                        Element lnkElement = element.child(0).child(0);
                         String href = lnkElement.attr("href");
-                        body = get(href);
+                        body = get(baseurl + href);
                         Document document = Jsoup.parseBodyFragment(body);
-                        Element articleEle = document.getElementById("cnblogs_post_body");
-                        Element title = document.getElementById("cb_post_title_url");
+                        Element articleEle = document.getElementsByClass("vc_article").get(0);
+                        Element title = document.getElementsByClass("vi_con").get(0);
                         Article article = new Article();
                         article.setContent(articleEle.toString());
                         article.setTitle(title.text());
-                        article.setCategoryId(2l);
+                        article.setCategoryId(5l);
                         article.setUserId(1l);
                         article.setViewCount(0);
                         article.setCommentCount(0);
@@ -168,4 +173,7 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
     }
 
 
+    public static void main(String[] args){
+        System.out.println("共250页 / 3000条".split("\\/")[0]);
+    }
 }
