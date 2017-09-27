@@ -17,12 +17,12 @@ public class Article implements Serializable {
     private Long articleId;
     private String title;
     private String content;
-    private Date create_time;
-    private Date update_time;
+    private Date createTime;
+    private Date updateTime;
     private String summary;
     private Long categoryId;
-    private Long commentCount;
-    private Long viewCount;
+    private Integer commentCount;
+    private Integer viewCount;
     private Long userId;
 
     public long getCategoryId() {
@@ -65,35 +65,35 @@ public class Article implements Serializable {
         this.content = content;
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getUpdate_time() {
-        return update_time;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public Long getCommentCount() {
+    public Integer getCommentCount() {
         return commentCount;
     }
 
-    public void setCommentCount(Long commentCount) {
+    public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
     }
 
-    public Long getViewCount() {
+    public Integer getViewCount() {
         return viewCount;
     }
 
-    public void setViewCount(Long viewCount) {
+    public void setViewCount(Integer viewCount) {
         this.viewCount = viewCount;
     }
 

@@ -4,6 +4,7 @@ import com.mydemo.common.Constant;
 import com.mydemo.common.Pager;
 import com.mydemo.domain.Article;
 import com.mydemo.domain.Category;
+import com.mydemo.domain.User;
 import com.mydemo.domain.bo.ArticleBo;
 import com.mydemo.domain.bo.CityBo;
 import com.mydemo.domain.vo.ArticleVo;
@@ -21,6 +22,7 @@ import org.tautua.markdownpapers.Markdown;
 import org.tautua.markdownpapers.parser.ParseException;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -72,7 +74,10 @@ public class ArticleController extends BaseController{
     }
 
     @RequestMapping(value = "/save")
-    public Object save(Article article) {
+    public Object save(Article article,HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        article.setUserId(user.getUserId());
+
         articleService.addArticle(article);
         return "redirect:/user/admin/";
     }

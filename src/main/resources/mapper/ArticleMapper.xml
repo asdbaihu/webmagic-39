@@ -8,9 +8,13 @@
         <id property="articleId" column="article_id" jdbcType="BIGINT"/>
         <result property="title" column="title" jdbcType="VARCHAR" />
         <result property="content" column="content" jdbcType="VARCHAR" />
-        <result property="date" column="date" jdbcType="DATE" />
+        <result property="createTime" column="create_time" jdbcType="DATE" />
+        <result property="updateTime" column="update_time" jdbcType="DATE" />
         <result property="summary" column="summary" jdbcType="VARCHAR"/>
         <result property="categoryId" column="category_id" jdbcType="BIGINT" />
+        <result property="commentCount" column="comment_count" jdbcType="INTEGER" />
+        <result property="viewCount" column="view_count" jdbcType="INTEGER" />
+        <result property="userId" column="user_id" jdbcType="BIGINT" />
     </resultMap>
 
     <select id="getCount" resultType="Long">
@@ -26,6 +30,6 @@
     </select>
 
     <select id="getArticlesBycategoryId" resultMap="article_map">
-        SELECT * FROM article  WHERE category_id=#{categoryId}
+        SELECT article_id,title,summary FROM article  WHERE category_id=#{categoryId}
     </select>
 </mapper>

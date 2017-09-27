@@ -38,8 +38,8 @@ public class ArticleService {
     }
 
     public void addArticle(Article article) {
-        article.setCreate_time(new Date());
-        article.setUpdate_time(new Date());
+        article.setCreateTime(new Date());
+        article.setUpdateTime(new Date());
         if (article.getSummary() == null || "".equals(article.getSummary())) {
             if (article.getContent().length() > 20) {
                 article.setSummary(article.getContent().substring(0, 20));
@@ -55,7 +55,7 @@ public class ArticleService {
 
         article.setCommentCount(old.getCommentCount());
         article.setViewCount(old.getViewCount());
-        article.setUpdate_time(new Date());
+        article.setUpdateTime(new Date());
         if (article.getSummary() == null || "".equals(article.getSummary())) {
             if (article.getContent().length() > 20) {
                 article.setSummary(article.getContent().substring(0, 20));

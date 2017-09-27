@@ -2,7 +2,7 @@
 <#assign basePath=request.contextPath />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>首页</title>
+    <title>我的博客</title>
     <link href="${basePath}/mycss.css" rel="stylesheet"/>
 </head>
 <body>
