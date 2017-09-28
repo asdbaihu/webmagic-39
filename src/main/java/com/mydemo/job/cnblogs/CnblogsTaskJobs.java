@@ -50,7 +50,7 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
     @Resource
     private ArticleService articleService;
 
-    @Scheduled(cron = "0 15 16 * * ? ")
+//    @Scheduled(cron = "0 15 16 * * ? ")
     public void pullOnce(){
         logger.info("开始搞事.............");
         int pageNum = pull(baseurl);
@@ -62,7 +62,7 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
     }
 
 
-    @Scheduled(cron = "0 0 3 * * ? ")
+//    @Scheduled(cron = "0 0 3 * * ? ")
     public void pullEveryDay(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE,-3);

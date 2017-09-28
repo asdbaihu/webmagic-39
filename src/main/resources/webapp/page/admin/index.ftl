@@ -27,11 +27,11 @@
             <#if page.rows??>
                 <#list page.rows as article>
                     <tr>
-                        <td>${article.articleId}</td>
+                        <td>${article.articleId?c}</td>
                         <td>${article.title}</td>
                         <td>${article.summary?html}</td>
-                        <td><a href="${basePath}/article/toUpdate/${article.articleId}.html">修改</a></td>
-                        <td><a href="${basePath}/article/delete/${article.articleId}.html">删除</a></td>
+                        <td><a href="${basePath}/article/toUpdate/${article.articleId?c}.html">修改</a></td>
+                        <td><a href="${basePath}/article/delete/${article.articleId?c}.html">删除</a></td>
                     </tr>
                 </#list>
             </#if>

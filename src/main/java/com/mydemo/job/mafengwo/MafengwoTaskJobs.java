@@ -42,61 +42,45 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
     static{
         pageMap.put("type","0");
         pageMap.put("objid", "0");
-        pageMap.put("page","3");
+        pageMap.put("page","2");
         pageMap.put("ajax","1");
         pageMap.put("retina","0");
     }
 
-
     @Resource
     private ArticleService articleService;
 
-    @Scheduled(cron = "0 29 1 * * ? ")
+    @Scheduled(cron = "0 35 0 * * ? ")
     public void pullOnce(){
         logger.info("开始搞事.............");
-        int pageNum = pull(baseurl);
+        Map map = new HashMap();
+        map.put("type","0");
+        int pageNum = pagePull(pageurl,map);
         for(int i=2;i<=pageNum;i++){
-            pageMap.put("PageIndex",String.valueOf(i));
+            pageMap.put("page",String.valueOf(i));
             pagePull(pageurl,pageMap);
         }
         logger.info("搞事结束.............");
     }
 
 
-    @Scheduled(cron = "0 0 3 * * ? ")
+//    @Scheduled(cron = "0 0 3 * * ? ")
     public void pullEveryDay(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE,-3);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String date = simpleDateFormat.format(cal.getTime());
         logger.info("开始搞事.............");
-        int pageNum = pull(baseurl);
+        Map map = new HashMap();
+        map.put("type","0");
+        int pageNum = pagePull(pageurl,map);
         for(int i=2;i<=pageNum;i++){
-            pageMap.put("PageIndex",String.valueOf(i));
+            pageMap.put("page",String.valueOf(i));
             pagePull(pageurl,pageMap,date);
         }
         logger.info("搞事结束.............");
     }
 
-
-    private int pull(String url){
-        int pageNum = 0;
-        try {
-            String body = get(url);
-            Document doc = Jsoup.parseBodyFragment(body);
-            Element page = doc.getElementById("_j_tn_pagination");
-            String value = page.child(0).text().split("\\/")[0];
-            String regEx="[^0-9]";
-            value = value.replaceAll(regEx,"");
-            pageNum = Integer.parseInt(value);
-            Element element = doc.getElementById("_j_tn_content");
-            Elements elements = element.getElementsByClass("tn-item clearfix");
-            save(elements);
-        } catch (Exception e) {
-            logger.info(e.getMessage(), e);
-        }
-        return pageNum;
-    }
 
 
     private void save(Elements elements) throws Exception{
@@ -117,33 +101,40 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
                 article.setUserId(1l);
                 article.setViewCount(0);
                 article.setCommentCount(0);
-//                articleService.addArticle(article);
+                articleService.addArticle(article);
             }
         }
     }
 
-    public void pagePull(String pageUrl,Map<String,String> dataMap){
+    public int pagePull(String pageUrl,Map<String,String> dataMap){
+        int pageNum = 0;
         try {
             String json = getForURL(pageUrl, JSON.toJSONString(dataMap));
-            Map<String,String> jsonMap = (Map<String,String>)JSON.parse(json);
-            String body = jsonMap.get("data");
-            Document doc = Jsoup.parseBodyFragment(body);
+            Map<String,Object> jsonMap = (Map<String,Object>)JSON.parse(json);
+            Map<String,String> data = (Map<String,String>)jsonMap.get("data");
+            Document doc = Jsoup.parseBodyFragment(data.get("html"));
+            Element page = doc.getElementById("_j_tn_pagination");
+            String value = page.child(0).text().split("\\/")[0];
+            String regEx="[^0-9]";
+            value = value.replaceAll(regEx,"");
+            pageNum = Integer.parseInt(value);
             Element element = doc.getElementById("_j_tn_content");
-            Elements elements = element.getElementsByClass("tn-item clearfix");
+            Elements elements = element.child(0).children();
             save(elements);
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
         }
+        return pageNum;
     }
 
     public void pagePull(String pageUrl,Map<String,String> dataMap,String yesDate){
         try {
             String json = getForURL(pageUrl, JSON.toJSONString(dataMap));
-            Map<String,String> jsonMap = (Map<String,String>)JSON.parse(json);
-            String body = jsonMap.get("data");
-            Document doc = Jsoup.parseBodyFragment(body);
+            Map<String,Object> jsonMap = (Map<String,Object>)JSON.parse(json);
+            Map<String,String> data = (Map<String,String>)jsonMap.get("data");
+            Document doc = Jsoup.parseBodyFragment(data.get("html"));
             Element content = doc.getElementById("_j_tn_content");
-            Elements elements = content.getElementsByClass("tn-item clearfix");
+            Elements elements = content.child(0).children();
             for(Element element : elements) {
                 String pullDate = element.getElementsByClass("vc_time").get(0).child(0).text();
                 if (pullDate.compareTo(yesDate) > 0) {
@@ -152,7 +143,7 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
                     if (value >= 500) {
                         Element lnkElement = element.child(0).child(0);
                         String href = lnkElement.attr("href");
-                        body = get(baseurl + href);
+                        String body = get(baseurl + href);
                         Document document = Jsoup.parseBodyFragment(body);
                         Element articleEle = document.getElementsByClass("vc_article").get(0);
                         Element title = document.getElementsByClass("vi_con").get(0);

@@ -40,7 +40,7 @@
                         </ul>
                     </div>
                     <input name="categoryId" id="cateoryInput" type="hidden" value="${article.categoryId}">
-                    <input name="id" type="hidden" value="${article.articleId}">
+                    <input name="id" type="hidden" value="${article.articleId?c}">
                     <input type="text" class="form-control" placeholder="标题" name="title" value="${article.title}">
                 </div>
             </div>
