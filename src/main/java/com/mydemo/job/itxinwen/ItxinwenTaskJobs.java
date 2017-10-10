@@ -1,6 +1,5 @@
 package com.mydemo.job.itxinwen;
 
-import com.alibaba.fastjson.JSON;
 import com.mydemo.domain.Article;
 import com.mydemo.job.BaseTaskJobs;
 import com.mydemo.service.ArticleService;
@@ -29,7 +28,7 @@ public class ItxinwenTaskJobs extends BaseTaskJobs{
     private ArticleService articleService;
 
 //    @Scheduled(cron = "0 0 6 * * ? ")
-    @Scheduled(cron = "0 41 17 * * ? ")
+//    @Scheduled(cron = "0 41 17 * * ? ")
     public void pullEveryDay(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE,-5);
