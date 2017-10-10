@@ -61,7 +61,7 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
     @Resource
     private ArticleService articleService;
 
-//    @Scheduled(cron = "0 41 15 * * ? ")
+    @Scheduled(cron = "0 50 23 * * ? ")
     public void pullOnce(){
         logger.info("开始搞事.............");
         Map map = new HashMap();

@@ -28,11 +28,11 @@ public class ItxinwenTaskJobs extends BaseTaskJobs{
     private ArticleService articleService;
 
 //    @Scheduled(cron = "0 0 6 * * ? ")
-//    @Scheduled(cron = "0 41 17 * * ? ")
+    @Scheduled(cron = "0 52 23 * * ? ")
     public void pullEveryDay(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE,-5);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = simpleDateFormat.format(cal.getTime());
         logger.info("开始搞事.............");
         int pageNum = pagePull(baseurl+"newslist.shtml",date);
