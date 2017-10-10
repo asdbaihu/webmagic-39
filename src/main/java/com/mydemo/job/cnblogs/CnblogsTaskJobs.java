@@ -53,7 +53,7 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
 
 
     @Scheduled(cron = "0 0 3 */3 * ? ")
-    public void pullEveryDay(){
+    public void pullThreeDay(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE,-3);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");

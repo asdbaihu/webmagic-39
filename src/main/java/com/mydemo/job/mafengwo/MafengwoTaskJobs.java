@@ -61,7 +61,7 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
     @Resource
     private ArticleService articleService;
 
-    @Scheduled(cron = "0 41 15 * * ? ")
+//    @Scheduled(cron = "0 41 15 * * ? ")
     public void pullOnce(){
         logger.info("开始搞事.............");
         Map map = new HashMap();
@@ -75,8 +75,8 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
     }
 
 
-//    @Scheduled(cron = "0 0 3 * * ? ")
-    public void pullEveryDay(){
+    @Scheduled(cron = "0 0 0 */3 * ? ")
+    public void pullThreeDay(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE,-3);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
