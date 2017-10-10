@@ -17,4 +17,5 @@ public interface ArticleMapper extends MyMapper<Article> {
 
     List<Article> getArticlesBycategoryId(@Param("categoryId") Long categoryId);
 
+    List<Article> getArticles(@Param("title")String title,@Param("categoryId")Long categoryId);
 }

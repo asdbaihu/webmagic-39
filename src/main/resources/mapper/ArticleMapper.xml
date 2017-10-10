@@ -14,7 +14,6 @@
         <result property="categoryId" column="category_id" jdbcType="BIGINT" />
         <result property="commentCount" column="comment_count" jdbcType="INTEGER" />
         <result property="viewCount" column="view_count" jdbcType="INTEGER" />
-        <result property="userId" column="user_id" jdbcType="BIGINT" />
     </resultMap>
 
     <select id="getCount" resultType="Long">
@@ -31,5 +30,9 @@
 
     <select id="getArticlesBycategoryId" resultMap="article_map">
         SELECT article_id,title,summary FROM article  WHERE category_id=#{categoryId}
+    </select>
+
+    <select id="getArticles" resultMap="article_map">
+        SELECT article_id,title,summary FROM article  WHERE category_id=#{categoryId} and title = #{title}
     </select>
 </mapper>

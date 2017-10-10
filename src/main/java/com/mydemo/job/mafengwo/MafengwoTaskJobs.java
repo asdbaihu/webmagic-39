@@ -29,6 +29,7 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -38,11 +39,21 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
     private final static String baseurl = "http://www.mafengwo.cn/";
     private final static String pageurl = "http://pagelet.mafengwo.cn/note/pagelet/recommendNoteApi";
 
+
+    private final static String expend = "<link href=\"http://css.mafengwo.net/css/cv/css+base:css+jquery.suggest:css+plugins:css+plugins+jquery.jgrowl:css+other+popup:css+mfw-header.2015^YlVS^1493708283.css\" rel=\"stylesheet\" type=\"text/css\"/>\n" +
+            "<link href=\"http://css.mafengwo.net/css/cv/css+jquery-ui-1.8.18.custom:css+new_notes+new_notes:css+new_notes+schedule_info:css+new_notes+step:css+new_notes+sideview:css+new_notes+notes_comments:css+mfw_comment^YlNV^1504674753.css\" rel=\"stylesheet\" type=\"text/css\"/>\n" +
+            "<script language=\"javascript\" src=\"http://js.mafengwo.net/js/cv/js+jquery-1.8.1.min:js+global+json2:js+M+Module:js+M+M:js+M+Log:js+m.statistics:js+advert+inspector^alw^1505811641.js\" type=\"text/javascript\" crossorigin=\"anonymous\"></script>\n" +
+            "<script language=\"javascript\" type=\"text/javascript\">\n" +
+            "if (typeof M !== \"undefined\" && typeof M.loadResource === \"function\") {\n" +
+            "M.loadResource(\"http://js.mafengwo.net/js/cv/js+Dropdown:js+pageletcommon+pageHeadUserInfoWWWNormal:js+jquery.tmpl:js+M+module+InputListener:js+M+module+SuggestionXHR:js+M+module+DropList:js+M+module+Suggestion:js+M+module+MesSearchEvent:js+SiteSearch:js+AHeader:js+jquery.jplayer:js+M+module+TopTip:js+M+module+dialog+Layer:js+M+module+dialog+DialogBase:js+M+module+dialog+Dialog:js+M+module+dialog+alert:js+M+module+dialog+confirm:js+M+module+ScrollObserver:js+note+ControllerHead:js+M+module+Storage:js+M+module+ClickToggle:js+EmotionsHd:js+module+app+Page:js+M+module+FrequencyVerifyControl:js+M+module+FrequencyAppVerify:js+note+GinfoReply:js+M+module+Caret:js+M+module+HoverTip:js+note+ControllerReply:js+M+module+Slider:js+note+ControllerRelate:js+note+ControllerCatalog:js+jquery.mousewheel.min:js+M+module+ScrollBar:js+M+module+StickyAndStayBlock:js+note+ASideSticky:js+note+ControllerExpand:js+purl:js+M+module+Movearound:js+note+ADetail:js+jquery.upnum:js+note+ADetailImageBar:js+jquery.easing.1.3:js+M+module+Toggle:js+M+module+CopyrightProtecte:js+jquery.lazyload:js+common+TextSelectionTip:js+note+ACommon:js+note+anotice:js+note+poiofnote:js+cvideo+swfobject:js+note+play.video:js+note+ALoadGoods:js+M+module+PageAdmin:js+M+module+Cookie:js+M+module+ResourceKeeper:js+jquery.jgrowl.min:js+AMessage:js+M+module+FrequencySystemVerify:js+ALogin:js+M+module+QRCode:js+AToolbar:js+ACnzzGaLog:js+ARecruit:js+ALazyLoad^YlZbQw^1502355328.js\");\n" +
+            "}\n" +
+            "</script>";
+
     private static Map<String,String> pageMap = new HashMap<>();
     static{
         pageMap.put("type","0");
         pageMap.put("objid", "0");
-        pageMap.put("page","2");
+        pageMap.put("page","1");
         pageMap.put("ajax","1");
         pageMap.put("retina","0");
     }
@@ -50,7 +61,7 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
     @Resource
     private ArticleService articleService;
 
-    @Scheduled(cron = "0 35 0 * * ? ")
+    @Scheduled(cron = "0 41 15 * * ? ")
     public void pullOnce(){
         logger.info("开始搞事.............");
         Map map = new HashMap();
@@ -95,12 +106,15 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
                 Element articleEle = document.getElementsByClass("vc_article").get(0);
                 Element title = document.getElementsByClass("vi_con").get(0);
                 Article article = new Article();
-                article.setContent(articleEle.toString());
+                article.setContent(articleEle.toString()+expend);
                 article.setTitle(title.text());
                 article.setCategoryId(5l);
-                article.setUserId(1l);
                 article.setViewCount(0);
                 article.setCommentCount(0);
+                List<Article> articleList = articleService.getArticles(title.text(),5l);
+                if(articleList!=null&&articleList.size()>0){
+                    continue;
+                }
                 articleService.addArticle(article);
             }
         }
@@ -151,9 +165,12 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
                         article.setContent(articleEle.toString());
                         article.setTitle(title.text());
                         article.setCategoryId(5l);
-                        article.setUserId(1l);
                         article.setViewCount(0);
                         article.setCommentCount(0);
+                        List<Article> articleList = articleService.getArticles(title.text(),5l);
+                        if(articleList!=null&&articleList.size()>0){
+                            continue;
+                        }
                         articleService.addArticle(article);
                     }
                 }
@@ -161,10 +178,5 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
         }
-    }
-
-
-    public static void main(String[] args){
-        System.out.println("共250页 / 3000条".split("\\/")[0]);
     }
 }

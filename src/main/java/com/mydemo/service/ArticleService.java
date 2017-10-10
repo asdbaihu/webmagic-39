@@ -74,4 +74,9 @@ public class ArticleService {
         List<Article> articles = articleDao.getArticlesBycategoryId(categoryId);
         return articles;
     }
+
+    public List<Article> getArticles(String title,Long categoryId){
+        List<Article> articles = articleDao.getArticles(title,categoryId);
+        return articles;
+    }
 }

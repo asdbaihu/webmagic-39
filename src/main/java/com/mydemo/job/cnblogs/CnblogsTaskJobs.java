@@ -3,17 +3,6 @@ package com.mydemo.job.cnblogs;
 import com.mydemo.domain.Article;
 import com.mydemo.job.BaseTaskJobs;
 import com.mydemo.service.ArticleService;
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,6 +16,7 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -50,7 +40,7 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
     @Resource
     private ArticleService articleService;
 
-//    @Scheduled(cron = "0 15 16 * * ? ")
+//    @Scheduled(cron = "0 32 11 * * ? ")
     public void pullOnce(){
         logger.info("开始搞事.............");
         int pageNum = pull(baseurl);
@@ -62,7 +52,7 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
     }
 
 
-//    @Scheduled(cron = "0 0 3 * * ? ")
+    @Scheduled(cron = "0 0 3 */3 * ? ")
     public void pullEveryDay(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE,-3);
@@ -112,9 +102,12 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
                 article.setContent(articleEle.toString());
                 article.setTitle(title.text());
                 article.setCategoryId(2l);
-                article.setUserId(1l);
                 article.setViewCount(0);
                 article.setCommentCount(0);
+                List<Article> articleList = articleService.getArticles(title.text(),2l);
+                if(articleList!=null&&articleList.size()>0){
+                    continue;
+                }
                 articleService.addArticle(article);
             }
         }
@@ -155,9 +148,12 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
                         article.setContent(articleEle.toString());
                         article.setTitle(title.text());
                         article.setCategoryId(2l);
-                        article.setUserId(1l);
                         article.setViewCount(0);
                         article.setCommentCount(0);
+                        List<Article> articleList = articleService.getArticles(title.text(),2l);
+                        if(articleList!=null&&articleList.size()>0){
+                            continue;
+                        }
                         articleService.addArticle(article);
                     }
                 }
@@ -166,6 +162,4 @@ public class CnblogsTaskJobs extends BaseTaskJobs{
             logger.info(e.getMessage(), e);
         }
     }
-
-
 }

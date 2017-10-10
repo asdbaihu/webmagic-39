@@ -23,7 +23,6 @@ public class Article implements Serializable {
     private Long categoryId;
     private Integer commentCount;
     private Integer viewCount;
-    private Long userId;
 
     public long getCategoryId() {
         return categoryId;
@@ -97,11 +96,4 @@ public class Article implements Serializable {
         this.viewCount = viewCount;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 }

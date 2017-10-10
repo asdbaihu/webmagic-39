@@ -1,6 +1,8 @@
 <html>
+<#assign basePath=request.contextPath />
 <head>
     <title>详情</title>
+    <script type="text/javascript" src="${basePath}/jquery-3.1.1.js" language="javascript"></script>
 </head>
 <body>
 <#include  "views/comm/top.ftl">
@@ -9,9 +11,8 @@
         <div class="panel-heading">
             <h3 class="panel-title">${article.title}</h3>
         </div>
-        <div class="panel-body">
-
-            <span>${article.content}</span>
+        <div id="content" class="panel-body">
+            ${article.content}
         </div>
     </div>
 </div>

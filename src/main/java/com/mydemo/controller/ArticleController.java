@@ -10,6 +10,8 @@ import com.mydemo.domain.bo.CityBo;
 import com.mydemo.domain.vo.ArticleVo;
 import com.mydemo.domain.vo.CityVo;
 import com.mydemo.service.ArticleService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,15 +49,15 @@ public class ArticleController extends BaseController{
     @RequestMapping("/detail/{id}")
     public String detail(@PathVariable("id") Long id, ModelMap model) {
         Article article = articleService.getArticleById(id);
-        Markdown markdown = new Markdown();
-        try {
-            StringWriter out = new StringWriter();
-            markdown.transform(new StringReader(article.getContent()), out);
-            out.flush();
-            article.setContent(out.toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        Markdown markdown = new Markdown();
+//        try {
+//            StringWriter out = new StringWriter();
+//            markdown.transform(new StringReader(article.getContent()), out);
+//            out.flush();
+//            article.setContent(out.toString());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
         model.put("article", article);
         return "views/detail";
     }
@@ -74,10 +76,7 @@ public class ArticleController extends BaseController{
     }
 
     @RequestMapping(value = "/save")
-    public Object save(Article article,HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
-        article.setUserId(user.getUserId());
-
+    public Object save(Article article) {
         articleService.addArticle(article);
         return "redirect:/user/admin/";
     }
