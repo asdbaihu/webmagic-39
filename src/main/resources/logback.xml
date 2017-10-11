@@ -112,9 +112,9 @@
     <logger name="java.sql.PreparedStatement" level="DEBUG" />
     <logger name="com.mydemo.domain" level="DEBUG"></logger>
     <root level="DEBUG">
-        <appender-ref ref="FILEERROR" />
-        <appender-ref ref="FILEWARN" />
-        <appender-ref ref="FILEINFO" />
+        <!--<appender-ref ref="FILEERROR" />-->
+        <!--<appender-ref ref="FILEWARN" />-->
+        <!--<appender-ref ref="FILEINFO" />-->
         <appender-ref ref="FILEDEBUG" />
 
         <!--<appender-ref ref="STDOUT" />-->
