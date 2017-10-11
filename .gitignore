@@ -3,5 +3,4 @@
 /build/
 /out/
 /log/
-/src/main/resources/logback.xml
 */*.iml
