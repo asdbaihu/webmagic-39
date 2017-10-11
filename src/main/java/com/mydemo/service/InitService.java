@@ -32,13 +32,13 @@ public class InitService {
 
     public void init(){
 
-        List<User> userList = userMapper.selectAll();
-        Constant.USER_LIST = userList;
-        Map<Long,User> userMap = new HashMap<>();
-        for (User user : userList){
-            userMap.put(user.getUserId(),user);
-        }
-        Constant.USER_MAP = userMap;
+//        List<User> userList = userMapper.selectAll();
+//        Constant.USER_LIST = userList;
+//        Map<Long,User> userMap = new HashMap<>();
+//        for (User user : userList){
+//            userMap.put(user.getUserId(),user);
+//        }
+//        Constant.USER_MAP = userMap;
 
 //        List<City> cityList = cityMapper.selectAll();
 //        Constant.CITY_LIST = cityList;
