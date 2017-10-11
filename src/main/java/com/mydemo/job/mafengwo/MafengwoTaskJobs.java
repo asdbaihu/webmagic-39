@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -61,15 +62,19 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
     @Resource
     private ArticleService articleService;
 
-    @Scheduled(cron = "0 50 23 * * ? ")
+//    @Scheduled(cron = "0 51 13 * * ? ")
     public void pullOnce(){
         logger.info("开始搞事.............");
         Map map = new HashMap();
         map.put("type","0");
-        int pageNum = pagePull(pageurl,map);
-        for(int i=2;i<=pageNum;i++){
-            pageMap.put("page",String.valueOf(i));
-            pagePull(pageurl,pageMap);
+        try {
+            int pageNum = pagePull(pageurl,map);
+            for(int i=2;i<=pageNum;i++){
+                pageMap.put("page",String.valueOf(i));
+                pagePull(pageurl,pageMap);
+            }
+        } catch (Exception e) {
+            logger.info(e.getMessage(), e);
         }
         logger.info("搞事结束.............");
     }
@@ -84,10 +89,14 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
         logger.info("开始搞事.............");
         Map map = new HashMap();
         map.put("type","0");
-        int pageNum = pagePull(pageurl,map);
-        for(int i=2;i<=pageNum;i++){
-            pageMap.put("page",String.valueOf(i));
-            pagePull(pageurl,pageMap,date);
+        try {
+            int pageNum = pagePull(pageurl,map);
+            for(int i=2;i<=pageNum;i++){
+                pageMap.put("page",String.valueOf(i));
+                pagePull(pageurl,pageMap,date);
+            }
+        } catch (Exception e) {
+            logger.info(e.getMessage(), e);
         }
         logger.info("搞事结束.............");
     }
@@ -102,12 +111,15 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
                 Element lnkElement = element.child(0).child(0);
                 String href = lnkElement.attr("href");
                 String body = get(baseurl+href);
+                if(StringUtils.isEmpty(body)){
+                    continue;
+                }
                 Document document = Jsoup.parseBodyFragment(body);
                 Element articleEle = document.getElementsByClass("vc_article").get(0);
                 Element title = document.getElementsByClass("vi_con").get(0);
                 Article article = new Article();
-                article.setContent(articleEle.toString()+expend);
-                article.setTitle(title.text());
+                article.setContent(articleEle.toString().replaceAll("[\ud800\udc00-\udbff\udfff\ud800-\udfff]", "")+expend);
+                article.setTitle(title.text().replaceAll("[\ud800\udc00-\udbff\udfff\ud800-\udfff]", ""));
                 article.setCategoryId(5l);
                 article.setViewCount(0);
                 article.setCommentCount(0);
@@ -120,63 +132,61 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
         }
     }
 
-    public int pagePull(String pageUrl,Map<String,String> dataMap){
+    public int pagePull(String pageUrl,Map<String,String> dataMap) throws Exception{
         int pageNum = 0;
-        try {
-            String json = getForURL(pageUrl, JSON.toJSONString(dataMap));
-            Map<String,Object> jsonMap = (Map<String,Object>)JSON.parse(json);
-            Map<String,String> data = (Map<String,String>)jsonMap.get("data");
-            Document doc = Jsoup.parseBodyFragment(data.get("html"));
-            Element page = doc.getElementById("_j_tn_pagination");
-            String value = page.child(0).text().split("\\/")[0];
-            String regEx="[^0-9]";
-            value = value.replaceAll(regEx,"");
-            pageNum = Integer.parseInt(value);
-            Element element = doc.getElementById("_j_tn_content");
-            Elements elements = element.child(0).children();
-            save(elements);
-        } catch (Exception e) {
-            logger.info(e.getMessage(), e);
+        String json = getForURL(pageUrl, JSON.toJSONString(dataMap));
+        if(StringUtils.isEmpty(json)){
+            logger.info("");
+            return 0;
         }
+        Map<String,Object> jsonMap = (Map<String,Object>)JSON.parse(json);
+        Map<String,String> data = (Map<String,String>)jsonMap.get("data");
+        Document doc = Jsoup.parseBodyFragment(data.get("html"));
+        Element page = doc.getElementById("_j_tn_pagination");
+        String value = page.child(0).text().split("\\/")[0];
+        String regEx="[^0-9]";
+        value = value.replaceAll(regEx,"");
+        pageNum = Integer.parseInt(value);
+        Element element = doc.getElementById("_j_tn_content");
+        Elements elements = element.child(0).children();
+        save(elements);
         return pageNum;
     }
 
-    public void pagePull(String pageUrl,Map<String,String> dataMap,String yesDate){
-        try {
-            String json = getForURL(pageUrl, JSON.toJSONString(dataMap));
-            Map<String,Object> jsonMap = (Map<String,Object>)JSON.parse(json);
-            Map<String,String> data = (Map<String,String>)jsonMap.get("data");
-            Document doc = Jsoup.parseBodyFragment(data.get("html"));
-            Element content = doc.getElementById("_j_tn_content");
-            Elements elements = content.child(0).children();
-            for(Element element : elements) {
-                String pullDate = element.getElementsByClass("vc_time").get(0).child(0).text();
-                if (pullDate.compareTo(yesDate) > 0) {
-                    Element span = element.getElementsByClass("tn-ding").get(0);
-                    int value = Integer.valueOf(span.child(1).text());
-                    if (value >= 500) {
-                        Element lnkElement = element.child(0).child(0);
-                        String href = lnkElement.attr("href");
-                        String body = get(baseurl + href);
-                        Document document = Jsoup.parseBodyFragment(body);
-                        Element articleEle = document.getElementsByClass("vc_article").get(0);
-                        Element title = document.getElementsByClass("vi_con").get(0);
-                        Article article = new Article();
-                        article.setContent(articleEle.toString());
-                        article.setTitle(title.text());
-                        article.setCategoryId(5l);
-                        article.setViewCount(0);
-                        article.setCommentCount(0);
-                        List<Article> articleList = articleService.getArticles(title.text(),5l);
-                        if(articleList!=null&&articleList.size()>0){
-                            continue;
-                        }
-                        articleService.addArticle(article);
+    public void pagePull(String pageUrl,Map<String,String> dataMap,String yesDate) throws Exception{
+        String json = getForURL(pageUrl, JSON.toJSONString(dataMap));
+        Map<String,Object> jsonMap = (Map<String,Object>)JSON.parse(json);
+        Map<String,String> data = (Map<String,String>)jsonMap.get("data");
+        Document doc = Jsoup.parseBodyFragment(data.get("html"));
+        Element content = doc.getElementById("_j_tn_content");
+        Elements elements = content.child(0).children();
+        for(Element element : elements) {
+            String pullDate = element.getElementsByClass("vc_time").get(0).child(0).text();
+            if (pullDate.compareTo(yesDate) > 0) {
+                Element span = element.getElementsByClass("tn-ding").get(0);
+                int value = Integer.valueOf(span.child(1).text());
+                if (value >= 500) {
+                    Element lnkElement = element.child(0).child(0);
+                    String href = lnkElement.attr("href");
+                    String body = get(baseurl + href);
+                    Document document = Jsoup.parseBodyFragment(body);
+                    Element articleEle = document.getElementsByClass("vc_article").get(0);
+                    Element title = document.getElementsByClass("vi_con").get(0);
+                    Article article = new Article();
+                    article.setContent(articleEle.toString());
+                    article.setTitle(title.text());
+                    article.setCategoryId(5l);
+                    article.setViewCount(0);
+                    article.setCommentCount(0);
+                    List<Article> articleList = articleService.getArticles(title.text(),5l);
+                    if(articleList!=null&&articleList.size()>0){
+                        continue;
                     }
+                    articleService.addArticle(article);
                 }
+            }else{
+                throw new RuntimeException("数据抓取完毕,抛出异常结束任务");
             }
-        } catch (Exception e) {
-            logger.info(e.getMessage(), e);
         }
     }
 }
