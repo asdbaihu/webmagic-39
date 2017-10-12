@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mydemo.dao.TicketMapper">
+<mapper namespace="com.dao.TicketMapper">
 
-    <resultMap id="ticket_map" type="com.mydemo.domain.Ticket">
+    <resultMap id="ticket_map" type="com.domain.Ticket">
         <id property="ticketId" column="ticket_id" jdbcType="BIGINT"/>
         <result property="trainNumber" column="train_number" jdbcType="VARCHAR" />
         <result property="originatStation" column="originat_station" jdbcType="VARCHAR" />

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mydemo.dao.UserMapper">
+<mapper namespace="com.dao.UserMapper">
 
-    <resultMap id="user_map" type="com.mydemo.domain.User">
+    <resultMap id="user_map" type="com.domain.User">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="userName" column="user_name" jdbcType="VARCHAR" />
         <result property="name" column="name" jdbcType="VARCHAR" />
@@ -20,7 +20,7 @@
         <result property="remark" column="remark" jdbcType="VARCHAR" />
     </resultMap>
 
-    <resultMap id="user_list_map" type="com.mydemo.domain.vo.UserVo" extends="user_map">
+    <resultMap id="user_list_map" type="com.domain.vo.UserVo" extends="user_map">
     </resultMap>
 
     <select id="getCount" resultType="Long">

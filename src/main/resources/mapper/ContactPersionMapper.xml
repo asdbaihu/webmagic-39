@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mydemo.dao.ContactPersionMapper">
+<mapper namespace="com.dao.ContactPersionMapper">
 
-    <resultMap id="contact_persion_map" type="com.mydemo.domain.ContactPersion">
+    <resultMap id="contact_persion_map" type="com.domain.ContactPersion">
         <id property="contactPersionId" column="contact_persion_id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR" />
         <result property="sex" column="sex" jdbcType="VARCHAR" />
