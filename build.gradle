@@ -51,6 +51,9 @@ dependencies {
     compile("mysql:mysql-connector-java:6.0.6")
     //druid 默认使用
     compile("com.alibaba:druid:1.0.31")
+    // https://mvnrepository.com/artifact/com.alibaba/fastjson
+    compile("com.alibaba:fastjson:1.2.39")
+
     //c3p0
     compile("c3p0:c3p0:0.9.1.2")
     compile("org.springframework:spring-jdbc")
@@ -86,6 +89,8 @@ dependencies {
 
     compile("org.apache.httpcomponents:httpclient:4.5.3")
     compile("org.apache.httpcomponents:httpmime:4.5.3")
+    compile("dom4j:dom4j:1.6.1")
+
 
     //compile fileTree(dir, 'libs' ,include : '*.jar')
     //providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
