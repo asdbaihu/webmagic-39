@@ -29,4 +29,6 @@ public class Constant {
     public static List<Category> CATEGORY_LIST = new ArrayList<>();
 
     public static Map<Long,Category> CATEGORY_MAP = new HashMap<>();
+
+    public static String WE_CHAT_TOKEN = null;
 }

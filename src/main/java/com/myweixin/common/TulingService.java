@@ -42,7 +42,6 @@ public class TulingService {
         return body;
     }
 
-
     private static final String apiUrl2 = "http://openapi.tuling123.com/openapi/api/v2";
 
     public String postMessageV2() throws Exception{

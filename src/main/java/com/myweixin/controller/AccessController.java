@@ -12,6 +12,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -62,6 +63,7 @@ public class AccessController extends BaseController{
             ServletInputStream in = request.getInputStream();
             SAXReader saxReadr = new SAXReader();
             Document doc = saxReadr.read(in);
+            System.out.println(doc.asXML());
             Element root = doc.getRootElement();
 
             String msgType = root.element("MsgType").getTextTrim();
@@ -84,7 +86,13 @@ public class AccessController extends BaseController{
 
                     String res = tulingService.postMessage(message.getContent());
                     Map<String,String> dataMap = (Map<String,String>) JSON.parse(res);
-                    sendMsg.setContent(dataMap.get("info"));
+                    String text = dataMap.get("text");
+                    String url = dataMap.get("url");
+                    if(StringUtils.isEmpty(url)){
+                        sendMsg.setContent(text);
+                    }else{
+                        sendMsg.setContent(text+"\\n<a href=\""+url+"\">打开页面</a>");
+                    }
                     sendMsg.setMsgType(msgType);
                     messageService.add(sendMsg);
 
@@ -94,7 +102,7 @@ public class AccessController extends BaseController{
                     str.append("<FromUserName><![CDATA[" + sendMsg.getFromUserName() + "]]></FromUserName>");
                     str.append("<CreateTime>" + new Date().getTime() + "</CreateTime>");
                     str.append("<MsgType><![CDATA[" + msgType + "]]></MsgType>");
-                    str.append("<Content><![CDATA[" + sendMsg.getContent() +"]]></Content>");
+                    str.append("<Content><![CDATA[" + sendMsg.getContent() + "]]></Content>");
                     str.append("</xml>");
                     response.getWriter().write(str.toString());
                     break;
