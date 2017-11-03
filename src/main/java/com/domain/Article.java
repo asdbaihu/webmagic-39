@@ -1,5 +1,8 @@
 package com.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,6 +12,7 @@ import java.util.Date;
 /**
  * Created by sang on 17-3-10.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Article implements Serializable {
 
     private static final long serialVersionUID = 1069261726853580834L;
@@ -24,7 +28,7 @@ public class Article implements Serializable {
     private Integer commentCount;
     private Integer viewCount;
 
-    public long getCategoryId() {
+    public Long getCategoryId() {
         return categoryId;
     }
 
