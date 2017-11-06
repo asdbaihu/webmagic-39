@@ -30,13 +30,7 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
 
 
     private final static String expend = "<link href=\"http://css.mafengwo.net/css/cv/css+base:css+jquery.suggest:css+plugins:css+plugins+jquery.jgrowl:css+other+popup:css+mfw-header.2015^YlVS^1493708283.css\" rel=\"stylesheet\" type=\"text/css\"/>\n" +
-            "<link href=\"http://css.mafengwo.net/css/cv/css+jquery-ui-1.8.18.custom:css+new_notes+new_notes:css+new_notes+schedule_info:css+new_notes+step:css+new_notes+sideview:css+new_notes+notes_comments:css+mfw_comment^YlNV^1504674753.css\" rel=\"stylesheet\" type=\"text/css\"/>\n" +
-            "<script language=\"javascript\" src=\"http://js.mafengwo.net/js/cv/js+jquery-1.8.1.min:js+global+json2:js+M+Module:js+M+M:js+M+Log:js+m.statistics:js+advert+inspector^alw^1505811641.js\" type=\"text/javascript\" crossorigin=\"anonymous\"></script>\n" +
-            "<script language=\"javascript\" type=\"text/javascript\">\n" +
-            "if (typeof M !== \"undefined\" && typeof M.loadResource === \"function\") {\n" +
-            "M.loadResource(\"http://js.mafengwo.net/js/cv/js+Dropdown:js+pageletcommon+pageHeadUserInfoWWWNormal:js+jquery.tmpl:js+M+module+InputListener:js+M+module+SuggestionXHR:js+M+module+DropList:js+M+module+Suggestion:js+M+module+MesSearchEvent:js+SiteSearch:js+AHeader:js+jquery.jplayer:js+M+module+TopTip:js+M+module+dialog+Layer:js+M+module+dialog+DialogBase:js+M+module+dialog+Dialog:js+M+module+dialog+alert:js+M+module+dialog+confirm:js+M+module+ScrollObserver:js+note+ControllerHead:js+M+module+Storage:js+M+module+ClickToggle:js+EmotionsHd:js+module+app+Page:js+M+module+FrequencyVerifyControl:js+M+module+FrequencyAppVerify:js+note+GinfoReply:js+M+module+Caret:js+M+module+HoverTip:js+note+ControllerReply:js+M+module+Slider:js+note+ControllerRelate:js+note+ControllerCatalog:js+jquery.mousewheel.min:js+M+module+ScrollBar:js+M+module+StickyAndStayBlock:js+note+ASideSticky:js+note+ControllerExpand:js+purl:js+M+module+Movearound:js+note+ADetail:js+jquery.upnum:js+note+ADetailImageBar:js+jquery.easing.1.3:js+M+module+Toggle:js+M+module+CopyrightProtecte:js+jquery.lazyload:js+common+TextSelectionTip:js+note+ACommon:js+note+anotice:js+note+poiofnote:js+cvideo+swfobject:js+note+play.video:js+note+ALoadGoods:js+M+module+PageAdmin:js+M+module+Cookie:js+M+module+ResourceKeeper:js+jquery.jgrowl.min:js+AMessage:js+M+module+FrequencySystemVerify:js+ALogin:js+M+module+QRCode:js+AToolbar:js+ACnzzGaLog:js+ARecruit:js+ALazyLoad^YlZbQw^1502355328.js\");\n" +
-            "}\n" +
-            "</script>";
+            "<link href=\"http://css.mafengwo.net/css/cv/css+jquery-ui-1.8.18.custom:css+new_notes+new_notes:css+new_notes+schedule_info:css+new_notes+step:css+new_notes+sideview:css+new_notes+notes_comments:css+mfw_comment^YlNV^1504674753.css\" rel=\"stylesheet\" type=\"text/css\"/>";
 
     private static Map<String,String> pageMap = new HashMap<>();
     static{
@@ -50,7 +44,7 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
     @Resource
     private ArticleService articleService;
 
-//    @Scheduled(cron = "0 51 13 * * ? ")
+//    @Scheduled(cron = "0 58 17 * * ? ")
     public void pullOnce(){
         logger.info("开始搞事.............");
         Map map = new HashMap();
@@ -98,20 +92,34 @@ public class MafengwoTaskJobs extends BaseTaskJobs{
             if(value>=500){
                 Element lnkElement = element.child(0).child(0);
                 String href = lnkElement.attr("href");
-                String body = get(baseurl+href);
-                if(StringUtils.isEmpty(body)){
+                String body = null;
+                if(href.contains("mafengwo")){
+                    body = get(href);
+                }else{
+                    body = get(baseurl+href);
+                }
+
+                if(StringUtils.isEmpty(body)||body.contains("您访问的页面不存在")){
                     continue;
                 }
                 Document document = Jsoup.parseBodyFragment(body);
                 Element articleEle = document.getElementsByClass("vc_article").get(0);
                 Element title = document.getElementsByClass("vi_con").get(0);
                 Article article = new Article();
-                article.setContent(articleEle.toString().replaceAll("[\ud800\udc00-\udbff\udfff\ud800-\udfff]", "")+expend);
-                article.setTitle(title.text().replaceAll("[\ud800\udc00-\udbff\udfff\ud800-\udfff]", ""));
-                article.setCategoryId(5l);
+                Elements imgs = articleEle.getElementsByClass("_j_lazyload");
+                for(Element img : imgs){
+                    String imageUrl = img.attr("data-src");
+                    img.attr("src",imageUrl);
+                    img.removeAttr("data-src");
+                }
+                article.setContent(articleEle.toString()+expend);
+                String titleStr = title.text().replaceAll("[^0-9\\u4e00-\\u9fa5]", "");
+                article.setTitle(titleStr);
+                article.setCategoryId(5L);
                 article.setViewCount(0);
                 article.setCommentCount(0);
-                List<Article> articleList = articleService.getArticles(title.text(),5l);
+                logger.info("title:" + titleStr);
+                List<Article> articleList = articleService.getArticles(titleStr,5L);
                 if(articleList!=null&&articleList.size()>0){
                     continue;
                 }
