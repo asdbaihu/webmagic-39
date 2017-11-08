@@ -29,7 +29,7 @@ public class ArticleAPIController extends BaseController{
     @Resource
     private ArticleService articleService;
 
-    @RequestMapping(value = "/column")
+    @RequestMapping(value = "/column",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Object column(ArticleBo bo, Pager<ArticleVo> pager) {
         List<Article> articles = articleService.getArticlesBycategoryId(bo.getCategoryId());
@@ -41,7 +41,7 @@ public class ArticleAPIController extends BaseController{
         return map;
     }
 
-    @RequestMapping("/detail")
+    @RequestMapping(value="/detail",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Object detail(Long id) {
         Article article = articleService.getArticleById(id);

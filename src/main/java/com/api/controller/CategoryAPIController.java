@@ -15,7 +15,7 @@ import java.util.HashMap;
 @RequestMapping("/api/category")
 public class CategoryAPIController extends BaseController {
 
-    @RequestMapping("/getAll")
+    @RequestMapping(value="/getAll",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Object getCategories() {
         return new HashMap<String,Object>(){{put("categories", JSON.toJSON(Constant.CATEGORY_LIST));}};
