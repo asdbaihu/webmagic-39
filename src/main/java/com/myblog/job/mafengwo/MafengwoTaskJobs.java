@@ -1,8 +1,8 @@
 package com.myblog.job.mafengwo;
 
 import com.alibaba.fastjson.JSON;
+import com.common.BaseTaskJobs;
 import com.domain.Article;
-import com.myblog.job.BaseTaskJobs;
 import com.myblog.service.ArticleService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class MafengwoTaskJobs extends BaseTaskJobs{
+public class MafengwoTaskJobs extends BaseTaskJobs {
 
     private final static Logger logger = LoggerFactory.getLogger(MafengwoTaskJobs.class);
     private final static String baseurl = "http://www.mafengwo.cn/";

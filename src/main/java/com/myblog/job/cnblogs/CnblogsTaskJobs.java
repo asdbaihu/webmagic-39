@@ -1,7 +1,7 @@
 package com.myblog.job.cnblogs;
 
+import com.common.BaseTaskJobs;
 import com.domain.Article;
-import com.myblog.job.BaseTaskJobs;
 import com.myblog.service.ArticleService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 
 @Component
-public class CnblogsTaskJobs extends BaseTaskJobs{
+public class CnblogsTaskJobs extends BaseTaskJobs {
 
     private final static Logger logger = LoggerFactory.getLogger(CnblogsTaskJobs.class);
     private final static String baseurl = "https://www.cnblogs.com/cate/java/";

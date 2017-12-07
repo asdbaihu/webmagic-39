@@ -92,6 +92,8 @@ dependencies {
     compile("dom4j:dom4j:1.6.1")
     compile("org.seleniumhq.selenium:selenium-java:3.4.0")
 
+    compile("com.rabbitmq:amqp-client:5.0.0")
+
 
     //compile fileTree(dir, 'libs' ,include : '*.jar')
     //providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'

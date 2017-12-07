@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.CodeskyMapper">
+
+    <resultMap id="article_map" type="com.domain.Codesky">
+        <id property="codeskyId" column="codesky_id" jdbcType="BIGINT"/>
+        <result property="type" column="type" jdbcType="VARCHAR" />
+        <result property="pageUrl" column="page_url" jdbcType="VARCHAR" />
+        <result property="downloadUrl" column="download_url" jdbcType="VARCHAR" />
+        <result property="fileName" column="file_name" jdbcType="VARCHAR" />
+        <result property="status" column="status" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="getCodesky" resultMap="article_map">
+        select * from codesky c where 1 = 1
+        <if test="bo.status>0">
+            and c.status = #{bo.status}
+        </if>
+        <if test="bo.type!=null">
+            and c.type = #{bo.type}
+        </if>
+        limit 0,1
+    </select>
+
+</mapper>

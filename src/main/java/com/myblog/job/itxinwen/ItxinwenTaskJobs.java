@@ -1,7 +1,7 @@
 package com.myblog.job.itxinwen;
 
+import com.common.BaseTaskJobs;
 import com.domain.Article;
-import com.myblog.job.BaseTaskJobs;
 import com.myblog.service.ArticleService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,7 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @Component
-public class ItxinwenTaskJobs extends BaseTaskJobs{
+public class ItxinwenTaskJobs extends BaseTaskJobs {
 
     private final static Logger logger = LoggerFactory.getLogger(ItxinwenTaskJobs.class);
     private final static String baseurl ="http://www.ittime.com.cn/";

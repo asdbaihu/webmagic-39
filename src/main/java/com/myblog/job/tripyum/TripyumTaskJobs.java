@@ -1,7 +1,7 @@
 package com.myblog.job.tripyum;
 
+import com.common.BaseTaskJobs;
 import com.domain.Article;
-import com.myblog.job.BaseTaskJobs;
 import com.myblog.service.ArticleService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

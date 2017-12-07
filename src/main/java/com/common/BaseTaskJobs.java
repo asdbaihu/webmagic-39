@@ -1,4 +1,4 @@
-package com.myresource;
+package com.common;
 
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
@@ -35,6 +35,20 @@ public class BaseTaskJobs {
         return body;
     }
 
+    protected InputStream getFile(String url, Map<String,String> headers) throws Exception{
+        CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build();
+        HttpGet httpGet = new HttpGet(url);
+        headers.forEach((k,v)->{
+            httpGet.setHeader(k,v);
+        });
+        CloseableHttpResponse response = closeableHttpClient.execute(httpGet);
+        HttpEntity httpEntity = response.getEntity();
+        if (httpEntity != null) {
+            return httpEntity.getContent();
+        }
+        return null;
+    }
+
     protected String getForURL(String url,String json) throws Exception{
         String body = null;
         CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build();
@@ -50,20 +64,6 @@ public class BaseTaskJobs {
         }
         closeableHttpClient.close();
         return body;
-    }
-
-    protected InputStream getFile(String url,Map<String,String> headers) throws Exception{
-        CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build();
-        HttpGet httpGet = new HttpGet(url);
-        headers.forEach((k,v)->{
-            httpGet.setHeader(k,v);
-        });
-        CloseableHttpResponse response = closeableHttpClient.execute(httpGet);
-        HttpEntity httpEntity = response.getEntity();
-        if (httpEntity != null) {
-            return httpEntity.getContent();
-        }
-        return null;
     }
 
     protected String post(String url,Map<String,String> data)throws Exception{
