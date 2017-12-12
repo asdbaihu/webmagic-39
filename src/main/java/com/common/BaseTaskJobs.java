@@ -2,6 +2,8 @@ package com.common;
 
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -35,16 +37,54 @@ public class BaseTaskJobs {
         return body;
     }
 
-    protected InputStream getFile(String url, Map<String,String> headers) throws Exception{
+    protected boolean testProxy(String url,String host,int port){
+        boolean  flag = false;
         CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build();
         HttpGet httpGet = new HttpGet(url);
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setSocketTimeout(5000)
+                .setConnectTimeout(5000)
+                .setConnectionRequestTimeout(5000)
+                .setStaleConnectionCheckEnabled(true)
+                .setProxy(new HttpHost(host, port))
+                .build();
+        httpGet.setConfig(requestConfig);
+        try {
+            CloseableHttpResponse response = closeableHttpClient.execute(httpGet);
+            if(response.getStatusLine().getStatusCode()==200){
+                flag = true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    protected InputStream getFile(String url, Map<String,String> headers,String host,int port) {
+        CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build();
+        HttpGet httpGet = new HttpGet(url);
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setSocketTimeout(50000)
+                .setConnectTimeout(50000)
+                .setConnectionRequestTimeout(50000)
+                .setStaleConnectionCheckEnabled(true)
+                .setProxy(new HttpHost(host, port))
+                .build();
+        httpGet.setConfig(requestConfig);
         headers.forEach((k,v)->{
             httpGet.setHeader(k,v);
         });
-        CloseableHttpResponse response = closeableHttpClient.execute(httpGet);
-        HttpEntity httpEntity = response.getEntity();
-        if (httpEntity != null) {
-            return httpEntity.getContent();
+
+        try {
+            CloseableHttpResponse response = closeableHttpClient.execute(httpGet);
+            if(response.getStatusLine().getStatusCode()==200){
+                HttpEntity httpEntity = response.getEntity();
+                if (httpEntity != null) {
+                    return httpEntity.getContent();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return null;
     }

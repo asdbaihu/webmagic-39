@@ -17,7 +17,7 @@ public class CodeskyService {
     @Autowired
     private CodeskyMapper codeskyMapper;
 
-    public Codesky getCodesky(CodeskyBo bo){
+    public List<Codesky> getCodesky(CodeskyBo bo){
         return codeskyMapper.getCodesky(bo);
     }
 

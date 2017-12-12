@@ -13,5 +13,5 @@ import java.util.List;
 
 public interface CodeskyMapper extends MyMapper<Codesky> {
 
-    Codesky getCodesky(@Param("bo") CodeskyBo bo);
+    List<Codesky> getCodesky(@Param("bo") CodeskyBo bo);
 }

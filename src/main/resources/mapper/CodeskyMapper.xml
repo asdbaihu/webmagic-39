@@ -21,7 +21,6 @@
         <if test="bo.type!=null">
             and c.type = #{bo.type}
         </if>
-        limit 0,1
     </select>
 
 </mapper>
